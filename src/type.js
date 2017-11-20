@@ -26,13 +26,13 @@ Type.prototype.__exec__ = function(val) {
 };
 
 Type.define = function(name, func) {
-  const isFunc = /\w+\(\)$/.test(name); // which name like this .gte()
+  const isFunctional = /\w+\(\)$/.test(name); // which name like this .gte()
   const property = name.replace(/\(\)$/, '');
   Object.defineProperty(Type.prototype, property, {
     enumerable: true,
     configurable: false,
     get: function() {
-      if (isFunc === true) {
+      if (isFunctional === true) {
         return argv => {
           func = func.call(this, argv);
           func.__name__ = name;

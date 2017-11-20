@@ -13,7 +13,10 @@ function Struct(typer) {
   for (let attr in typer) {
     if (typer.hasOwnProperty(attr)) {
       const type = typer[attr];
-      if (type instanceof Type === false) {
+      if (
+        type instanceof Type === false &&
+        utils.isPlainObject(type) === false
+      ) {
         throw new Error(`Invalid type of key ${attr}`);
       }
     }
@@ -36,9 +39,10 @@ Struct.prototype.validate = function(obj, options = DEFAULT_VALIDATE_OPTIONS) {
         continue;
       }
 
-      if (utils.isPlainObject(value)) {
-        return this.validate(obj, options);
-      }
+      // if (utils.isPlainObject(value)) {
+      //   console.info('发现嵌套')
+      //   return this.validate(value, options);
+      // }
 
       try {
         // check the field
@@ -70,6 +74,7 @@ Struct.define('even', require('./check/even'));
 Struct.define('json', require('./check/json'));
 
 // functional check
+Struct.define('object()', require('./check/object'));
 Struct.define('eq()', require('./check/eq'));
 Struct.define('gt()', require('./check/gt'));
 Struct.define('gte()', require('./check/gte'));
