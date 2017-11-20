@@ -1,5 +1,7 @@
 ## Struct
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/axetroy/struct.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/axetroy/struct.svg?branch=master)](https://travis-ci.org/axetroy/struct)
 ![License](https://img.shields.io/badge/license-Apache-green.svg)
 
