@@ -8,6 +8,7 @@ A Modern, Scalable , Graceful, Easy Use data structure validator
 ## Usage
 
 ```npm
+# not publish yet
 npm install @axetroy/struct
 ```
 
@@ -15,8 +16,8 @@ npm install @axetroy/struct
 const Struct = require('@axetroy/struct')
 
 const peopleStruct = Struct({
-  name: Struct.type.isString,
-  age: Struct.type.isInt.gtee(18),
+  name: Struct.type.string,
+  age: Struct.type.int.gte(18),
   money: Struct.type.lt(10000)
 });
 
