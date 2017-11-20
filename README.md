@@ -12,7 +12,7 @@ npm install @axetroy/struct
 ```
 
 ```javascript
-const Struct = require('axetroy/struct')
+const Struct = require('@axetroy/struct')
 
 const peopleStruct = Struct({
   name: Struct.type.isString,

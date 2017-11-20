@@ -70,7 +70,9 @@ Struct.utils = {
     return typeof input === 'string' || input instanceof String;
   },
   isNumber(input) {
-    return typeof input === 'number' || input instanceof Number;
+    return (
+      !isNaN(input) && (typeof input === 'number' || input instanceof Number)
+    );
   },
   isFunction(input) {
     return typeof input === 'function';
@@ -110,16 +112,64 @@ Struct.defined('isString', function(input) {
 });
 
 Struct.defined('isNumber', function(input) {
-  return typeof input === 'number';
+  return Struct.utils.isNumber(input);
 });
 
 Struct.defined('isInt', function(input) {
-  return typeof input === 'number' && (input + '').indexOf('.') < 0;
+  return Struct.utils.isNumber(input) && (input + '').indexOf('.') < 0;
+});
+
+Struct.defined('isOdd', function(input) {
+  return Struct.utils.isNumber(input) && input % 2 !== 0;
+});
+
+Struct.defined('isEven', function(input) {
+  return Struct.utils.isNumber(input) && input % 2 === 0;
+});
+
+Struct.defined('isFloat', function(input) {
+  return Struct.utils.isNumber(input) && (input + '').indexOf('.') >= 0;
+});
+
+Struct.defined('eq()', function(value) {
+  return function(input) {
+    return Struct.utils.isNumber(input) && input === value;
+  };
+});
+
+Struct.defined('in()', function(array = []) {
+  return function(input) {
+    return array.includes(input);
+  };
+});
+
+Struct.defined('bt()', function(min, max) {
+  return function(input) {
+    return Struct.utils.isNumber(input) && input > min && input < max;
+  };
+});
+
+Struct.defined('gt()', function(maxNumber) {
+  return function(input) {
+    return Struct.utils.isNumber(input) && input > maxNumber;
+  };
 });
 
 Struct.defined('gte()', function(maxNumber) {
   return function(input) {
-    return typeof input === 'number' && input >= maxNumber;
+    return Struct.utils.isNumber(input) && input >= maxNumber;
+  };
+});
+
+Struct.defined('lt()', function(minNumber) {
+  return function(input) {
+    return Struct.utils.isNumber(input) && input > minNumber;
+  };
+});
+
+Struct.defined('lte()', function(minNumber) {
+  return function(input) {
+    return Struct.utils.isNumber(input) && input >= minNumber;
   };
 });
 
