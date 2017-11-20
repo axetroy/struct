@@ -1,3 +1,8 @@
+/**
+ * create a type
+ * @returns {Type}
+ * @constructor
+ */
 function Type() {
   if (this instanceof Type === false) {
     return new Type();

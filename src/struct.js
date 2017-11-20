@@ -1,4 +1,9 @@
 const Type = require('./type');
+const utils = require('./utils');
+
+const DEFAULT_VALIDATE_OPTIONS = {
+  strict: false
+};
 
 function Struct(typer) {
   if (this instanceof Struct === false) {
@@ -16,7 +21,8 @@ function Struct(typer) {
 }
 
 Struct.prototype.constructor = Struct;
-Struct.prototype.validate = function(obj, options) {
+Struct.prototype.validate = function(obj, options = DEFAULT_VALIDATE_OPTIONS) {
+  options = Object.assign(options, DEFAULT_VALIDATE_OPTIONS);
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       const value = obj[key];
@@ -24,7 +30,14 @@ Struct.prototype.validate = function(obj, options) {
 
       // if this key is not define the type then skip
       if (!type) {
+        if (options.strict === true) {
+          throw new Error(`Property ${key} is not define the type!`);
+        }
         continue;
+      }
+
+      if (utils.isPlainObject(value)) {
+        return this.validate(obj, options);
       }
 
       try {
