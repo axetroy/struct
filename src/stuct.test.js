@@ -1,9 +1,9 @@
 import test from 'ava';
 import Struct from '../index';
 
-test('type.isString', t => {
+test('type.string', t => {
   const s = new Struct({
-    name: Struct.type.isString
+    name: Struct.type.string
   });
 
   t.notThrows(function() {
@@ -19,9 +19,9 @@ test('type.isString', t => {
   });
 });
 
-test('type.isNumber', t => {
+test('type.number', t => {
   const s = new Struct({
-    count: Struct.type.isNumber
+    count: Struct.type.number
   });
 
   // input int
@@ -53,9 +53,9 @@ test('type.isNumber', t => {
   });
 });
 
-test('type.isInt', t => {
+test('type.int', t => {
   const s = new Struct({
-    age: Struct.type.isInt
+    age: Struct.type.int
   });
 
   // input int
@@ -96,9 +96,9 @@ test('type.isInt', t => {
 
 test('basic', t => {
   const s = new Struct({
-    name: Struct.type.isString,
-    age: Struct.type.isInt,
-    money: Struct.type.gte(10000).isInt
+    name: Struct.type.string,
+    age: Struct.type.int,
+    money: Struct.type.gte(10000).int
   });
 
   t.notThrows(function() {
