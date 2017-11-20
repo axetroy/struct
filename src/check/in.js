@@ -5,7 +5,7 @@
  */
 function isIn(array = []) {
   return function(input) {
-    return array.findIndex(input) >= 0;
+    return array.findIndex(v => input === v) >= 0;
   };
 }
 
