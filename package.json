@@ -1,0 +1,22 @@
+{
+  "name": "struct",
+  "version": "0.0.1",
+  "description": "A Modern, Scalable , Graceful, Easy Use data structure validator",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axetroy/Github.git"
+  },
+  "author": "Axetroy",
+  "license": "Apache",
+  "bugs": {
+    "url": "https://github.com/axetroy/Github/issues"
+  },
+  "homepage": "https://github.com/axetroy/Github#readme",
+  "devDependencies": {
+    "ava": "^0.23.0"
+  }
+}
