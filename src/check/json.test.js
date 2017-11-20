@@ -12,6 +12,7 @@ test('.json()', t => {
   t.false(json(JSON.stringify(false)));
   t.false(json(JSON.stringify('')));
   t.false(json(JSON.stringify('0')));
+  t.false(json('abc'));
 
   // not a string type should be false
   t.false(json(1));

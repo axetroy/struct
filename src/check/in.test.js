@@ -11,6 +11,9 @@ test('.isIn()', t => {
   t.true(isIn([true, false])(true));
   t.true(isIn([true, false])(false));
 
+  // undefined
+  t.false(isIn()());
+
   // not support NaN
   t.false(isIn([NaN, 0])(NaN));
 });

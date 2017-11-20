@@ -4,7 +4,7 @@
   "description": "A Modern, Scalable , Graceful, Easy Use data structure validator",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "nyc ava"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/axetroy/Github#readme",
   "devDependencies": {
-    "ava": "^0.23.0"
+    "ava": "^0.23.0",
+    "nyc": "^11.3.0"
   }
 }

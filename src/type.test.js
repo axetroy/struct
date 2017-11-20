@@ -17,7 +17,7 @@ test('new Type() and define', t => {
   Type.define('string', require('./check/string'));
   Type.define('int', require('./check/int'));
 
-  const type = new Type();
+  const type = Type();
 
   t.deepEqual(type.task, []);
   t.deepEqual(type.raw, []);
