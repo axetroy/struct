@@ -56,29 +56,7 @@ Struct.prototype.validate = function(obj, options = DEFAULT_VALIDATE_OPTIONS) {
  * @param name
  * @param func
  */
-Struct.define = function(name, func) {
-  const isFunc = /\w+\(\)$/.test(name); // which name like this .gte()
-  const property = name.replace(/\(\)$/, '');
-  Object.defineProperty(Type.prototype, property, {
-    enumerable: true,
-    configurable: false,
-    get: function() {
-      if (isFunc === true) {
-        return argv => {
-          func = func.call(this, argv);
-          func.__name__ = name;
-          this.raw.push(name);
-          this.task.push(func);
-          return this;
-        };
-      }
-      func.__name__ = name;
-      this.raw.push(name);
-      this.task.push(func);
-      return this;
-    }
-  });
-};
+Struct.define = Type.define;
 
 // define the official checker
 
