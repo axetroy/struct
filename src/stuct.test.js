@@ -18,13 +18,3 @@ test('basic stuct', t => {
     });
   });
 });
-
-test('nest stuct', t => {
-  const s = Struct({
-    name: Struct.type.string,
-    info: Struct.type.object({
-      age: Struct.type.int,
-      address: Struct.type.string
-    })
-  });
-});

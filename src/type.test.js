@@ -40,5 +40,19 @@ test('new Type() and define', t => {
 
   t.deepEqual(type.task.length, 2);
   t.deepEqual(type.raw.length, 2);
+});
 
+test('define checker with invalid argument', t => {
+  t.throws(function() {
+    Type.define('hello', null);
+  }, `The argument must be 1: string, 2: function`);
+});
+
+test('Type Error', t => {
+  const checker = 'int';
+
+  const err = Type.Error(checker);
+
+  t.deepEqual(err.message, `Can not pass the validator ${checker}`);
+  t.true(err instanceof Error);
 });

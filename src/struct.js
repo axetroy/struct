@@ -60,7 +60,7 @@ Struct.prototype.validate = function(obj, options = DEFAULT_VALIDATE_OPTIONS) {
  * @param name
  * @param func
  */
-Struct.define = Type.define;
+Struct.define = Type.define.bind(Type);
 
 // define the official checker
 

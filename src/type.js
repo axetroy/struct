@@ -1,3 +1,15 @@
+const utils = require('./utils');
+
+function TypeError(validateName) {
+  if (this instanceof TypeError === false) {
+    return new TypeError(validateName);
+  }
+  this.message = `Can not pass the validator ${validateName}`;
+}
+
+TypeError.prototype = new Error();
+TypeError.prototype.constructor = TypeError;
+
 /**
  * create a type
  * @returns {Type}
@@ -19,13 +31,17 @@ Type.prototype.__exec__ = function(val) {
     const task = tasks.shift();
     const isSuccess = task.call(this, val);
     if (isSuccess === false) {
-      throw new Error(`Can not pass the validator ${task.__name__}`);
+      console.log('throw ' + task.__name__, val, typeof val);
+      throw new TypeError(task.__name__);
     }
   }
   return true;
 };
 
-Type.define = function(name, func) {
+Type.define = function(name, checker) {
+  if (utils.isFunction(checker) === false) {
+    throw new Error(`The argument must be 1: string, 2: function`);
+  }
   const isFunctional = /\w+\(\)$/.test(name); // which name like this .gte()
   const property = name.replace(/\(\)$/, '');
   Object.defineProperty(Type.prototype, property, {
@@ -34,19 +50,21 @@ Type.define = function(name, func) {
     get: function() {
       if (isFunctional === true) {
         return argv => {
-          func = func.call(this, argv);
+          const func = checker.call(this, argv);
           func.__name__ = name;
           this.raw.push(name);
           this.task.push(func);
           return this;
         };
+      } else {
+        checker.__name__ = name;
+        this.raw.push(name);
+        this.task.push(checker);
+        return this;
       }
-      func.__name__ = name;
-      this.raw.push(name);
-      this.task.push(func);
-      return this;
     }
   });
 };
 
 module.exports = Type;
+module.exports.Error = TypeError;

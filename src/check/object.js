@@ -4,9 +4,9 @@ const utils = require('../utils');
  * @param types
  * @returns {Function}
  */
-function object(types) {
-  return function(input) {
-    if (utils.isPlainObject(input)) return false;
+function objectabc(types) {
+  return function objectChecker(input) {
+    if (utils.isPlainObject(input) === false) return false;
     for (let key in input) {
       if (input.hasOwnProperty(key)) {
         const value = input[key];
@@ -14,16 +14,11 @@ function object(types) {
         if (!type) {
           continue;
         }
-
-        if (utils.isPlainObject(value)) {
-          return object(type, value);
-        }
-
-        type.__exec__(input);
+        type.__exec__(value);
       }
     }
     return true;
   };
 }
 
-module.exports = object;
+module.exports = objectabc;
