@@ -41,7 +41,10 @@ try{
 
 ```
 
-### 
+### TODO
+
+- [ ] Support browser, pack with Webpack
+- [ ] Support array type
 
 ## Contributing
 
