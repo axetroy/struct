@@ -31,7 +31,6 @@ Type.prototype.__exec__ = function(val) {
     const task = tasks.shift();
     const isSuccess = task.call(this, val);
     if (isSuccess === false) {
-      console.log('throw ' + task.__name__, val, typeof val);
       throw new TypeError(task.__name__);
     }
   }

@@ -1,10 +1,6 @@
 const Type = require('./type');
 const utils = require('./utils');
 
-const DEFAULT_VALIDATE_OPTIONS = {
-  strict: false
-};
-
 function Struct(typer) {
   if (this instanceof Struct === false) {
     return new Struct(typer);
@@ -24,8 +20,7 @@ function Struct(typer) {
 }
 
 Struct.prototype.constructor = Struct;
-Struct.prototype.validate = function(obj, options = DEFAULT_VALIDATE_OPTIONS) {
-  options = Object.assign(options, DEFAULT_VALIDATE_OPTIONS);
+Struct.prototype.validate = function(obj) {
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       const value = obj[key];
@@ -33,16 +28,8 @@ Struct.prototype.validate = function(obj, options = DEFAULT_VALIDATE_OPTIONS) {
 
       // if this key is not define the type then skip
       if (!type) {
-        if (options.strict === true) {
-          throw new Error(`Property ${key} is not define the type!`);
-        }
         continue;
       }
-
-      // if (utils.isPlainObject(value)) {
-      //   console.info('发现嵌套')
-      //   return this.validate(value, options);
-      // }
 
       try {
         // check the field
