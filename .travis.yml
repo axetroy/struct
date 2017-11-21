@@ -3,9 +3,12 @@ sudo: false
 
 os:
   - linux
+  - osx
+  - windows
 
 node_js:
-  - '6.10.0'
+  - 7.6.0
+  - 8.5.0
 
 cache:
   yarn: true
@@ -13,7 +16,7 @@ cache:
     - node_modules
 
 script:
-  - echo "test success..."
+  - yarn run test
 
 after_script:
-  - yarn run coverage
+  - nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls

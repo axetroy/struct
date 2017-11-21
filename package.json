@@ -18,6 +18,7 @@
   "homepage": "https://github.com/axetroy/Github#readme",
   "devDependencies": {
     "ava": "^0.23.0",
+    "coveralls": "^3.0.0",
     "nyc": "^11.3.0"
   }
 }
