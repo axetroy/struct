@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "add": "echo '[GPM]: Clone Success...'"
+    "add": "yarn"
   }
 }
