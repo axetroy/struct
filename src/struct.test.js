@@ -1,5 +1,6 @@
 import test from 'ava';
 import Struct from './struct';
+import Type from './type';
 
 test('basic stuct', t => {
   const s = new Struct({
@@ -19,11 +20,42 @@ test('basic stuct', t => {
   });
 });
 
-test('basic nest stuct', t => {
+// test('basic nest stuct', t => {
+//   const s = Struct({
+//     name: Struct.type.string,
+//     info: Struct.type.object({
+//       age: Struct.type.int
+//     })
+//   });
+//
+//   t.notThrows(function() {
+//     s.validate({
+//       name: 'aaa',
+//       info: {
+//         age: 18
+//       }
+//     });
+//   });
+//
+//   t.throws(function() {
+//     s.validate({
+//       name: 'aaa',
+//       info: {
+//         age: '18' // invalid age field
+//       }
+//     });
+//   });
+// });
+
+test('object nest object', t => {
   const s = Struct({
     name: Struct.type.string,
     info: Struct.type.object({
-      age: Struct.type.int
+      age: Struct.type.int,
+      location: Struct.type.object({
+        x: Struct.type.int,
+        y: Struct.type.int
+      })
     })
   });
 
@@ -31,7 +63,11 @@ test('basic nest stuct', t => {
     s.validate({
       name: 'aaa',
       info: {
-        age: 18
+        age: 18,
+        location: {
+          x: 1,
+          y: 1
+        }
       }
     });
   });
@@ -40,10 +76,14 @@ test('basic nest stuct', t => {
     s.validate({
       name: 'aaa',
       info: {
-        age: '18' // invalid age field
+        age: 18,
+        location: {
+          x: '1', // invalid type
+          y: 1
+        }
       }
     });
-  });
+  }, new Type.Error('int').message);
 });
 
 test('invalid type field', t => {
