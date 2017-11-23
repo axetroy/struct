@@ -1,51 +1,71 @@
 import test from 'ava';
 import Struct from './struct';
-import Type from './type';
+import TypeError from './error';
 
 test('basic stuct', t => {
   const s = new Struct({
     name: Struct.type.string
   });
 
-  t.notThrows(function() {
-    s.validate({
-      name: 'aaa'
-    });
+  const err1 = s.validate({
+    name: 'aaa'
   });
 
-  t.throws(function() {
-    s.validate({
-      name: 123
-    });
+  t.deepEqual(err1, void 0);
+
+  const err2 = s.validate({
+    name: 123
   });
+
+  t.true(err2 instanceof TypeError);
+  t.deepEqual(err2.validator, 'string');
 });
 
-// test('basic nest stuct', t => {
-//   const s = Struct({
-//     name: Struct.type.string,
-//     info: Struct.type.object({
-//       age: Struct.type.int
-//     })
-//   });
-//
-//   t.notThrows(function() {
-//     s.validate({
-//       name: 'aaa',
-//       info: {
-//         age: 18
-//       }
-//     });
-//   });
-//
-//   t.throws(function() {
-//     s.validate({
-//       name: 'aaa',
-//       info: {
-//         age: '18' // invalid age field
-//       }
-//     });
-//   });
-// });
+test('undefined type', t => {
+  function Type() {
+    this.name = Struct.type.string;
+    this.age = Struct.type.int;
+  }
+
+  Type.prototype.float = Struct.type.float;
+
+  const s = new Struct(new Type());
+
+  const err1 = s.validate({
+    name: 'aaa'
+    // age: 22 // undefined value
+  });
+
+  t.true(err1 instanceof TypeError);
+  t.deepEqual(err1.validator, 'require');
+});
+
+test('basic nest stuct', t => {
+  const s = Struct({
+    name: Struct.type.string,
+    info: Struct.type.object({
+      age: Struct.type.int
+    })
+  });
+
+  const err1 = s.validate({
+    name: 'aaa',
+    info: {
+      age: 18
+    }
+  });
+
+  t.deepEqual(err1, void 0);
+
+  const err2 = s.validate({
+    name: 'aaa',
+    info: {
+      age: '18' // invalid age field
+    }
+  });
+  t.true(err2 instanceof TypeError);
+  t.deepEqual(err2.validator, 'object()');
+});
 
 test('object nest object', t => {
   const s = Struct({
@@ -59,31 +79,32 @@ test('object nest object', t => {
     })
   });
 
-  t.notThrows(function() {
-    s.validate({
-      name: 'aaa',
-      info: {
-        age: 18,
-        location: {
-          x: 1,
-          y: 1
-        }
+  const err1 = s.validate({
+    name: 'aaa',
+    info: {
+      age: 18,
+      location: {
+        x: 1,
+        y: 1
       }
-    });
+    }
   });
 
-  t.throws(function() {
-    s.validate({
-      name: 'aaa',
-      info: {
-        age: 18,
-        location: {
-          x: '1', // invalid type
-          y: 1
-        }
+  t.deepEqual(err1, void 0);
+
+  const err2 = s.validate({
+    name: 'aaa',
+    info: {
+      age: 18,
+      location: {
+        x: '1', // invalid type
+        y: 1
       }
-    });
-  }, new Type.Error('int').message);
+    }
+  });
+
+  t.true(err2 instanceof TypeError);
+  t.deepEqual(err2.validator, 'object()');
 });
 
 test('invalid type field', t => {

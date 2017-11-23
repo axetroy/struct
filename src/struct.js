@@ -1,5 +1,6 @@
 const Type = require('./type');
 const utils = require('./utils');
+const TypeError = require('./error');
 
 function Struct(typer) {
   if (this instanceof Struct === false) {
@@ -20,26 +21,37 @@ function Struct(typer) {
 }
 
 Struct.prototype.constructor = Struct;
+/**
+ * run validator, if false, it will return an error
+ * @param obj
+ * @returns {*}
+ */
 Struct.prototype.validate = function(obj) {
+  const checked = [];
+  const typer = this.typer;
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       const value = obj[key];
-      const type = this.typer[key];
-
+      const type = typer[key];
       // if this key is not define the type then skip
       if (!type) {
-        continue;
+        return new TypeError(`undefined`, [key], undefined);
       }
-
-      try {
-        // check the field
-        type.__exec__(value);
-      } catch (err) {
-        throw err;
+      let err = type.__exec__(key, value, []);
+      checked.push(key);
+      if (err) {
+        return err;
       }
     }
   }
-  return false;
+  for (let key in typer) {
+    if (typer.hasOwnProperty(key)) {
+      // have someone key not check
+      if (checked.findIndex(v => v === key) < 0) {
+        return new TypeError(`require`, [key], undefined);
+      }
+    }
+  }
 };
 
 /**

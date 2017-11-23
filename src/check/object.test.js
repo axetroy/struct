@@ -1,36 +1,34 @@
 const test = require('ava');
 const object = require('./object');
 const Struct = require('../struct');
-const Type = require('../type');
 
 test('.object()-1', t => {
-  t.notThrows(function() {
-    object({
-      name: Struct.type.string
-    })({
-      name: '123'
-    });
+  const err1 = object({
+    name: Struct.type.string
+  })({
+    name: '123'
   });
 
-  t.throws(function() {
-    object({
-      name: Struct.type.string
-    })({
-      name: 123 // invalid type, it should throw an error
-    });
-  }, new Type.Error('string').message);
+  t.deepEqual(err1, void 0);
+
+  const err = object({
+    name: Struct.type.string
+  })({
+    name: 123 // invalid type, it should throw an error
+  });
+  t.deepEqual(err.validator, 'string');
 });
 
 test('.object()-2', t => {
-  t.throws(function() {
-    object({
-      name: Struct.type.string,
-      age: Struct.type.int
-    })({
-      name: '123',
-      age: '123' // invalid type, it should throw an error
-    });
-  }, new Type.Error('int').message);
+  const err = object({
+    name: Struct.type.string,
+    age: Struct.type.int
+  })({
+    name: '123',
+    age: '123' // invalid type, it should throw an error
+  });
+
+  t.deepEqual(err.validator, 'int');
 
   t.notThrows(function() {
     object({
@@ -93,12 +91,12 @@ test('.object() ignore the field which not define', t => {
 });
 
 test('.object() return false if pass a not object', t => {
-  t.false(
-    object({
-      name: Struct.type.string,
-      age: Struct.type.int
-    })(null)
-  );
+  const err = object({
+    name: Struct.type.string,
+    age: Struct.type.int
+  })(null);
+
+  t.true(err instanceof Error);
 });
 
 test('.object() pass a custom object', t => {
@@ -108,16 +106,15 @@ test('.object() pass a custom object', t => {
 
   NewObject.prototype.b = 123;
 
-  t.true(
-    object({
-      a: Struct.type.int
-    })(new NewObject())
-  );
+  let err1 = object({
+    a: Struct.type.int
+  })(new NewObject());
 
-  t.true(
-    object({
-      a: Struct.type.int
-    })(new NewObject())
-  );
+  t.deepEqual(err1, void 0);
 
+  let err2 = object({
+    a: Struct.type.int
+  })(new NewObject());
+
+  t.deepEqual(err2, void 0);
 });

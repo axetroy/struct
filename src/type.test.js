@@ -1,5 +1,6 @@
 const test = require('ava');
 const Type = require('./type');
+const TypeError = require('./error');
 
 test('new Type()', t => {
   const type = new Type();
@@ -10,7 +11,7 @@ test('new Type()', t => {
   t.notThrows(function() {
     type.__exec__();
   });
-  t.true(type.__exec__());
+  t.deepEqual(type.__exec__(), void 0);
 });
 
 test('new Type() and define', t => {
@@ -28,11 +29,14 @@ test('new Type() and define', t => {
   t.deepEqual(type.task.length, 1);
   t.deepEqual(type.raw.length, 1);
   t.notThrows(function() {
-    type.__exec__('This is a string, it should be ok');
+    type.__exec__('key', 'This is a string, it should be ok');
   });
   t.throws(function() {
     // check a number as a string, it should throw an error
-    type.__exec__(1234);
+    const err = type.__exec__('key', 1234);
+    if (err) {
+      throw err;
+    }
   });
 
   // set int checker
@@ -50,9 +54,6 @@ test('define checker with invalid argument', t => {
 
 test('Type Error', t => {
   const checker = 'int';
-
-  const err = Type.Error(checker);
-
-  t.deepEqual(err.message, `Can not pass the validator ${checker}`);
+  const err = TypeError(checker, ['key'], '123');
   t.true(err instanceof Error);
 });

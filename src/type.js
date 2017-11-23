@@ -1,14 +1,5 @@
 const utils = require('./utils');
-
-function TypeError(validateName) {
-  if (this instanceof TypeError === false) {
-    return new TypeError(validateName);
-  }
-  this.message = `Can not pass the validator ${validateName}`;
-}
-
-TypeError.prototype = new Error();
-TypeError.prototype.constructor = TypeError;
+const TypeError = require('./error');
 
 /**
  * create a type
@@ -24,19 +15,32 @@ function Type() {
 }
 
 Type.prototype.constructor = Type;
-Type.prototype.__exec__ = function(val) {
-  // run checker
+
+/**
+ * run checker, if check fail, it will return an error object
+ * @param key
+ * @param val
+ * @param parentKeys
+ * @returns {Error}
+ * @private
+ */
+Type.prototype.__exec__ = function(key, val, parentKeys = []) {
   const tasks = [].concat(this.task);
   while (tasks.length) {
     const task = tasks.shift();
-    const isSuccess = task.call(this, val);
-    if (isSuccess === false) {
-      throw new TypeError(task.__name__);
+    const validator = task.__name__;
+    const result = task.call(this, val);
+    if (result === false || result instanceof TypeError) {
+      return new TypeError(validator, parentKeys.concat(key), val);
     }
   }
-  return true;
 };
 
+/**
+ * define a checker
+ * @param name
+ * @param checker
+ */
 Type.define = function(name, checker) {
   if (utils.isFunction(checker) === false) {
     throw new Error(`The argument must be 1: string, 2: function`);
@@ -66,4 +70,3 @@ Type.define = function(name, checker) {
 };
 
 module.exports = Type;
-module.exports.Error = TypeError;

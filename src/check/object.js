@@ -1,4 +1,5 @@
 const utils = require('../utils');
+const TypeError = require('../error');
 /**
  * create a nest stuct
  * @param types
@@ -6,7 +7,9 @@ const utils = require('../utils');
  */
 function objectabc(types) {
   return function objectChecker(input) {
-    if (utils.isPlainObject(input) === false) return false;
+    if (utils.isPlainObject(input) === false) {
+      return new TypeError('argument', undefined, input);
+    }
     for (let key in input) {
       if (input.hasOwnProperty(key)) {
         const value = input[key];
@@ -14,10 +17,12 @@ function objectabc(types) {
         if (!type) {
           continue;
         }
-        type.__exec__(value);
+        const err = type.__exec__(key, value);
+        if (err) {
+          return err;
+        }
       }
     }
-    return true;
   };
 }
 
