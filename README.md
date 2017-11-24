@@ -37,6 +37,35 @@ const err = struct.validate(data);
 console.log(err); // undefined, because the data pass the validator
 ```
 
+### API
+
+#### new Struct(object)
+
+Create a struct
+
+#### Stuct.type.xxx
+
+Get a type
+
+build in type
+
+- [x] **number**, check is a number 
+- [x] **int**, check is a int
+- [x] **float**, check is a float
+- [x] **string**, check is a string
+- [x] **odd**, check is a odd number
+- [x] **even**, check is a even number
+- [x] **json**, check ia a json string
+- [x] **object(object)**, define nest type
+- [x] **array(type)**, define array
+- [x] **eq(value)**, check equal something
+- [x] **gt(number)**, check a number greater than a number
+- [x] **gte(number)**, check a number greater than a number or equal
+- [x] **lt(number)**, check a number less than a 
+- [x] **lte(number)**, check a number less than a number or equal
+- [x] **bt(minNumber, maxNumber)**, check a number is between the min number and max number
+- [x] **in(array)**, check the value is in one of array
+
 ### How to write a custom validator
 
 ```javascript
