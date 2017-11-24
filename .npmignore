@@ -11,3 +11,6 @@ node_modules
 contributing.md
 .nyc_output
 examples
+src
+.babelrc
+index.js
