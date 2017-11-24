@@ -2,7 +2,7 @@
   "name": "struct",
   "version": "0.0.1",
   "description": "A Modern, Scalable , Graceful, Easy Use data structure validator",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "nyc ava",
     "build": "webpack --display-error-details --progress --colors --display-error-details"
