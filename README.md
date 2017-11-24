@@ -12,7 +12,7 @@
 
 A Modern, Scalable , Graceful, Easy Use data structure validator
 
-## Usage
+## Quick start
 
 ```npm
 # not publish yet
@@ -20,31 +20,30 @@ npm install @axetroy/struct
 ```
 
 ```javascript
-const Struct = require('@axetroy/struct')
+const Struct = require('../index');
 
-const peopleStruct = Struct({
+const data = {
+  name: "axetroy",
+  age: 18
+};
+
+const struct = truct({
   name: Struct.type.string,
-  age: Struct.type.int.gte(18),
-  money: Struct.type.lt(10000)
+  age: Struct.type.int
 });
 
-// it should pass validate
-try{
-  peopleStruct.validate({
-    name: "axetroy",
-    age: 18,
-    money: 9999
-  })
-}catch (err){
-  console.error(err);
-}
+const err = struct.validate(data);
 
+console.log(err); // undefined, because the data pass the validator
 ```
+
+### examples
+
+There is the examples, may be it can help you
 
 ### TODO
 
 - [ ] Support browser, pack with Webpack
-- [ ] Support array type
 
 ## Contributing
 
