@@ -41,6 +41,12 @@ console.log(err); // undefined, because the data pass the validator
 
 There is the examples, may be it can help you
 
+### How to write a custom validator
+
+```bash
+
+```
+
 ### TODO
 
 - [ ] Support browser, pack with Webpack
