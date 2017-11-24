@@ -1,5 +1,5 @@
 {
-  "name": "struct",
+  "name": "@axetroy/struct",
   "version": "1.0.0",
   "description": "A Modern, Scalable , Graceful, Easy Use data structure validator",
   "main": "./dist/index.js",
