@@ -66,7 +66,11 @@ build in type
 - [x] **bt(minNumber, maxNumber)**, check a number is between the min number and max number
 - [x] **in(array)**, check the value is in one of array
 
-### What will **new Struct.validate(value)** return?
+#### Struct.validate(data)
+
+Check the data is valid or not
+
+##### What will **new Struct.validate(value)** return?
 
 - **undefined**, If you got this return value, that mean the data pass the all validator
 - **TypeError**, once anyone validator fail, it will return this error object, inherit from Error
