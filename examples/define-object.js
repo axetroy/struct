@@ -9,7 +9,7 @@ const data = {
   }
 };
 
-const struct = truct({
+const struct = Struct({
   name: Struct.type.string,
   age: Struct.type.int,
   hometown: {
