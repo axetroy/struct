@@ -13,7 +13,7 @@ cache:
     - node_modules
 
 script:
-  - yarn run test
+  - npm run build && yarn run test
 
 after_script:
   - nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls
