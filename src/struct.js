@@ -74,6 +74,7 @@ Struct.define('json', require('./check/json'));
 
 // functional check
 Struct.define('object()', require('./check/object'));
+Struct.define('array()', require('./check/array'));
 Struct.define('eq()', require('./check/eq'));
 Struct.define('gt()', require('./check/gt'));
 Struct.define('gte()', require('./check/gte'));
