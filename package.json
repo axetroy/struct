@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/axetroy/Github.git"
+    "url": "git+https://github.com/axetroy/struct.git"
   },
   "author": "Axetroy",
   "license": "Apache",
   "bugs": {
-    "url": "https://github.com/axetroy/Github/issues"
+    "url": "https://github.com/axetroy/struct/issues"
   },
-  "homepage": "https://github.com/axetroy/Github#readme",
+  "homepage": "https://github.com/axetroy/struct#readme",
   "devDependencies": {
     "ava": "^0.23.0",
     "babel-loader": "^7.1.2",
