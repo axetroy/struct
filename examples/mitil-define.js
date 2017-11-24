@@ -5,7 +5,7 @@ const data = {
   age: 20
 };
 
-const struct = truct({
+const struct = Struct({
   name: Struct.type.string,
   age: Struct.type.int.gte(18).lte(50)  // 18 <= age <= 50
 });
