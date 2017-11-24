@@ -10,3 +10,5 @@ node_modules
 .travis.yml
 contributing.md
 .nyc_output
+examples
+dist
