@@ -153,3 +153,31 @@ test('define custom type', t => {
     const s = Struct(new T());
   });
 });
+
+test('Invalid struct argument', t => {
+  const msg = `Argument of Struct must be an object!`;
+  // invalid struct argument
+  t.throws(function() {
+    Struct(null);
+  }, msg);
+
+  t.throws(function() {
+    Struct([]);
+  }, msg);
+
+  t.throws(function() {
+    Struct(0);
+  }, msg);
+
+  t.throws(function() {
+    Struct(false);
+  }, msg);
+
+  t.throws(function() {
+    Struct(NaN);
+  }, msg);
+
+  t.throws(function() {
+    Struct(null);
+  }, msg);
+});

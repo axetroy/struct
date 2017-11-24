@@ -7,6 +7,11 @@ function Struct(typer) {
     return new Struct(typer);
   }
   this.typer = typer;
+
+  if (utils.isPlainObject(typer) === false) {
+    throw new Error(`Argument of Struct must be an object!`);
+  }
+
   for (let attr in typer) {
     if (typer.hasOwnProperty(attr)) {
       const type = typer[attr];
