@@ -26,7 +26,7 @@ const data = {
   age: 18
 };
 
-const struct = truct({
+const struct = new Struct({
   name: Struct.type.string,
   age: Struct.type.int
 });
