@@ -12,7 +12,7 @@ const data = {
   age: 19
 };
 
-const struct = truct({
+const struct = Struct({
   name: Struct.type.string,
   age: Struct.type.int.gt(18) // check int first, and then check gt
 });
