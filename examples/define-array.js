@@ -6,7 +6,7 @@ const data = {
   friends: ['ada', 'judy', 'kim']
 };
 
-const struct = truct({
+const struct = Struct({
   name: Struct.type.string,
   age: Struct.type.int,
   friends: Struct.type.array(Struct.type.string)
