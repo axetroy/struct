@@ -98,10 +98,6 @@ console.log(err); // undefined, because the data pass the validator
 
 There is the [examples](https://github.com/axetroy/struct/tree/master/examples), may be it can help you
 
-### TODO
-
-- [ ] Support browser, pack with Webpack
-
 ## Contributing
 
 [Contributing Guid](https://github.com/axetroy/struct/blob/master/CONTRIBUTING.md)
