@@ -10,17 +10,16 @@
 [![npm version](https://badge.fury.io/js/%40axetroy%2Fstruct.svg)](https://badge.fury.io/js/%40axetroy%2Fstruct)
 ![Size](https://github-size-badge.herokuapp.com/axetroy/struct.svg)
 
-A Modern, Scalable , Graceful, Easy Use data structure validator
+A Modern, Scalable , Graceful, Easy Use data structure validator, Support browser and NodeJs
 
 ## Quick start
 
 ```npm
-# not publish yet
 npm install @axetroy/struct
 ```
 
 ```javascript
-const Struct = require('../index');
+const Struct = require('@axetroy/struct');
 
 const data = {
   name: "axetroy",
