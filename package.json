@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/axetroy/struct#readme",
   "devDependencies": {
-    "ava": "^0.23.0",
+    "ava": "^0.24.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "coveralls": "^3.0.0",
