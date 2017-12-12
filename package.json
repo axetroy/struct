@@ -3,6 +3,7 @@
   "version": "1.1.2",
   "description": "A Modern, Scalable , Graceful, Easy Use data structure validator",
   "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "test": "nyc ava",
     "build": "webpack --display-error-details --progress --colors --display-error-details"
