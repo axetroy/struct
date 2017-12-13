@@ -5,7 +5,7 @@ function TypeError(validateName, keys = [], value) {
   this.validator = validateName;
   this.keys = keys;
   this.value = value;
-  this.message = `Can not pass the validator ${validateName} by ${value}`;
+  this.message = 'Can not pass the validator ' + validateName + ' by ' + value;
 }
 
 TypeError.prototype = new Error();

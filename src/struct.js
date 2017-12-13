@@ -9,7 +9,7 @@ function Struct(typer) {
   this.typer = typer;
 
   if (utils.isPlainObject(typer) === false) {
-    throw new Error(`Argument of Struct must be an object!`);
+    throw new Error('Argument of Struct must be an object!');
   }
 
   for (let attr in typer) {
@@ -19,7 +19,7 @@ function Struct(typer) {
         type instanceof Type === false &&
         utils.isPlainObject(type) === false
       ) {
-        throw new Error(`Invalid type of key ${attr}`);
+        throw new Error('Invalid type of key "' + attr + '"');
       }
     }
   }
@@ -40,8 +40,13 @@ Struct.prototype.validate = function(obj) {
       const type = typer[key];
       // if this key is not define the type then skip
       if (!type) {
-        return new TypeError(`undefined`, [key], undefined);
+        return new TypeError('undefined', [key], undefined);
       }
+
+      if (type instanceof Type === false) {
+        return new Error('The type of ' + key + ' is undefined');
+      }
+
       let err = type.__exec__(key, value, []);
       checked.push(key);
       if (err) {
@@ -53,7 +58,7 @@ Struct.prototype.validate = function(obj) {
     if (typer.hasOwnProperty(key)) {
       // have someone key not check
       if (checked.findIndex(v => v === key) < 0) {
-        return new TypeError(`require`, [key], undefined);
+        return new TypeError('require', [key], undefined);
       }
     }
   }
