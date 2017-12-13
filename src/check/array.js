@@ -1,6 +1,5 @@
-const utils = require('../utils');
 const TypeError = require('../error');
-const Type = require('../type');
+const { Type } = require('../type');
 /**
  * create a nest stuct of a array
  * @param type

@@ -1,10 +1,10 @@
 const test = require('ava');
 const object = require('./object');
-const Struct = require('../struct');
+const { type } = require('../struct');
 
 test('.object()-1', t => {
   const err1 = object({
-    name: Struct.type.string
+    name: type.string
   })({
     name: '123'
   });
@@ -12,7 +12,7 @@ test('.object()-1', t => {
   t.deepEqual(err1, void 0);
 
   const err = object({
-    name: Struct.type.string
+    name: type.string
   })({
     name: 123 // invalid type, it should throw an error
   });
@@ -21,8 +21,8 @@ test('.object()-1', t => {
 
 test('.object()-2', t => {
   const err = object({
-    name: Struct.type.string,
-    age: Struct.type.int
+    name: type.string,
+    age: type.int
   })({
     name: '123',
     age: '123' // invalid type, it should throw an error
@@ -32,11 +32,11 @@ test('.object()-2', t => {
 
   t.notThrows(function() {
     object({
-      name: Struct.type.string,
-      age: Struct.type.int,
-      city: Struct.type.object({
-        code: Struct.type.int,
-        name: Struct.type.string
+      name: type.string,
+      age: type.int,
+      city: type.object({
+        code: type.int,
+        name: type.string
       })
     })({
       name: '123',
@@ -52,14 +52,14 @@ test('.object()-2', t => {
 test('.object()-3', t => {
   t.notThrows(function() {
     object({
-      name: Struct.type.string,
-      age: Struct.type.int,
-      city: Struct.type.object({
-        code: Struct.type.int,
-        name: Struct.type.string,
-        location: Struct.type.object({
-          x: Struct.type.float,
-          y: Struct.type.float
+      name: type.string,
+      age: type.int,
+      city: type.object({
+        code: type.int,
+        name: type.string,
+        location: type.object({
+          x: type.float,
+          y: type.float
         })
       })
     })({
@@ -80,8 +80,8 @@ test('.object()-3', t => {
 test('.object() ignore the field which not define', t => {
   t.notThrows(function() {
     object({
-      name: Struct.type.string,
-      age: Struct.type.int
+      name: type.string,
+      age: type.int
     })({
       name: '123',
       age: 123,
@@ -92,8 +92,8 @@ test('.object() ignore the field which not define', t => {
 
 test('.object() return false if pass a not object', t => {
   const err = object({
-    name: Struct.type.string,
-    age: Struct.type.int
+    name: type.string,
+    age: type.int
   })(null);
 
   t.true(err instanceof Error);
@@ -107,13 +107,13 @@ test('.object() pass a custom object', t => {
   NewObject.prototype.b = 123;
 
   let err1 = object({
-    a: Struct.type.int
+    a: type.int
   })(new NewObject());
 
   t.deepEqual(err1, void 0);
 
   let err2 = object({
-    a: Struct.type.int
+    a: type.int
   })(new NewObject());
 
   t.deepEqual(err2, void 0);

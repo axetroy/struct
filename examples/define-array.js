@@ -1,4 +1,4 @@
-const Struct = require('../index');
+const { Struct, type } = require('../index');
 
 const data = {
   name: 'axetroy',
@@ -7,9 +7,9 @@ const data = {
 };
 
 const struct = Struct({
-  name: Struct.type.string,
-  age: Struct.type.int,
-  friends: Struct.type.array(Struct.type.string)
+  name: type.string,
+  age: type.int,
+  friends: type.array(type.string)
 });
 
 const err = struct.validate(data);

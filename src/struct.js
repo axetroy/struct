@@ -1,4 +1,4 @@
-const Type = require('./type');
+const { Type, type } = require('./type');
 const utils = require('./utils');
 const TypeError = require('./error');
 
@@ -89,11 +89,7 @@ Struct.define('bt()', require('./check/between'));
 Struct.define('in()', require('./check/in'));
 Struct.define('len()', require('./check/len'));
 
-Object.defineProperty(Struct, 'type', {
-  enumerable: false,
-  configurable: false,
-  get: () => new Type()
-});
-
 module.exports = Struct;
-module.exports.default = Struct;
+module.exports.Struct = Struct;
+module.exports.type = type;
+module.exports.Type = Type;

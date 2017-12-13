@@ -1,4 +1,4 @@
-const Struct = require('../index');
+const { Struct, type } = require('../index');
 
 const data = {
   name: 'axetroy',
@@ -10,11 +10,11 @@ const data = {
 };
 
 const struct = Struct({
-  name: Struct.type.string,
-  age: Struct.type.int,
+  name: type.string,
+  age: type.int,
   hometown: {
-    city: Struct.type.string,
-    code: Struct.type.int
+    city: type.string,
+    code: type.int
   }
 });
 

@@ -1,6 +1,8 @@
 const utils = require('./utils');
 const TypeError = require('./error');
 
+const TypeTree = {};
+
 /**
  * create a type
  * @returns {Type}
@@ -67,6 +69,13 @@ Type.define = function(name, checker) {
       }
     }
   });
+  Object.defineProperty(TypeTree, property, {
+    enumerable: true,
+    configurable: false,
+    get: function() {
+      return new Type()[property];
+    }
+  });
 };
 
-module.exports = Type;
+module.exports = { Type, type: TypeTree };

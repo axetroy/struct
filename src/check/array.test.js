@@ -1,15 +1,15 @@
 const test = require('ava');
 const array = require('./array');
 const TypeError = require('../error');
-const Struct = require('../struct');
+const { type } = require('../struct');
 
 test('.array() pure string', t => {
-  const err1 = array(Struct.type.string)(['a', 'b', 'c', 'd']);
+  const err1 = array(type.string)(['a', 'b', 'c', 'd']);
   t.deepEqual(err1, void 0);
 });
 
 test('.array()-2', t => {
-  const err1 = array(Struct.type.int)([1, 2, '3', 4, 5]);
+  const err1 = array(type.int)([1, 2, '3', 4, 5]);
   t.true(err1 instanceof TypeError);
   t.deepEqual(err1.keys, [2]);
   t.deepEqual(err1.value, '3');
@@ -17,7 +17,7 @@ test('.array()-2', t => {
 });
 
 test('.array()-3', t => {
-  const err1 = array(Struct.type.int)([1, 2, {}]);
+  const err1 = array(type.int)([1, 2, {}]);
   t.true(err1 instanceof TypeError);
   t.deepEqual(err1.keys, [2]);
   t.deepEqual(err1.value, {});
@@ -26,9 +26,9 @@ test('.array()-3', t => {
 
 test('.array() nest object', t => {
   const err1 = array(
-    Struct.type.object({
-      name: Struct.type.string,
-      age: Struct.type.int
+    type.object({
+      name: type.string,
+      age: type.int
     })
   )([
     {
@@ -45,9 +45,9 @@ test('.array() nest object', t => {
 
 test('.array() nest object not pass', t => {
   const err1 = array(
-    Struct.type.object({
-      name: Struct.type.string,
-      age: Struct.type.int
+    type.object({
+      name: type.string,
+      age: type.int
     })
   )([
     {
@@ -125,7 +125,7 @@ test('.array() invalid type define', t => {
 
 test('.array() input is or an array', t => {
   // invalid input
-  const err1 = array(Struct.type.string)({});
+  const err1 = array(type.string)({});
   t.true(err1 instanceof TypeError);
   t.deepEqual(err1.keys, []);
   t.deepEqual(err1.value, {});

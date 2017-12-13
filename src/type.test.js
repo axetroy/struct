@@ -1,5 +1,5 @@
 const test = require('ava');
-const Type = require('./type');
+const { Type } = require('./type');
 const TypeError = require('./error');
 
 test('new Type()', t => {

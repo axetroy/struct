@@ -1,10 +1,29 @@
 import test from 'ava';
-import Struct from './struct';
+import { Struct, type } from './struct';
 import TypeError from './error';
 
 test('basic stuct', t => {
   const s = new Struct({
-    name: Struct.type.string
+    name: type.string
+  });
+
+  const err1 = s.validate({
+    name: 'aaa'
+  });
+
+  t.deepEqual(err1, void 0);
+
+  const err2 = s.validate({
+    name: 123
+  });
+
+  t.true(err2 instanceof TypeError);
+  t.deepEqual(err2.validator, 'string');
+});
+
+test('basic stuct2', t => {
+  const s = new Struct({
+    name: type.string
   });
 
   const err1 = s.validate({
@@ -22,14 +41,14 @@ test('basic stuct', t => {
 });
 
 test('undefined type', t => {
-  function Type() {
-    this.name = Struct.type.string;
-    this.age = Struct.type.int;
+  function CustomizeType() {
+    this.name = type.string;
+    this.age = type.int;
   }
 
-  Type.prototype.float = Struct.type.float;
+  CustomizeType.prototype.float = type.float;
 
-  const s = new Struct(new Type());
+  const s = new Struct(new CustomizeType());
 
   const err1 = s.validate({
     name: 'aaa'
@@ -42,9 +61,9 @@ test('undefined type', t => {
 
 test('basic nest stuct', t => {
   const s = Struct({
-    name: Struct.type.string,
-    info: Struct.type.object({
-      age: Struct.type.int
+    name: type.string,
+    info: type.object({
+      age: type.int
     })
   });
 
@@ -69,12 +88,12 @@ test('basic nest stuct', t => {
 
 test('object nest object', t => {
   const s = Struct({
-    name: Struct.type.string,
-    info: Struct.type.object({
-      age: Struct.type.int,
-      location: Struct.type.object({
-        x: Struct.type.int,
-        y: Struct.type.int
+    name: type.string,
+    info: type.object({
+      age: type.int,
+      location: type.object({
+        x: type.int,
+        y: type.int
       })
     })
   });
@@ -118,7 +137,7 @@ test('invalid type field', t => {
 test('skip the field which did not define', t => {
   t.notThrows(function() {
     const s = Struct({
-      name: Struct.type.string
+      name: type.string
     });
 
     s.validate({
@@ -138,7 +157,7 @@ test('define custom type', t => {
     Data.prototype.a = '1';
 
     const s = Struct({
-      name: Struct.type.string
+      name: type.string
     });
 
     s.validate(new Data());

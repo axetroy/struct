@@ -15,11 +15,11 @@ A Modern, Scalable , Graceful, Easy Use data structure validator, Support browse
 ## Quick start
 
 ```npm
-npm install @axetroy/struct
+npm install @axetroy/struct --save
 ```
 
 ```javascript
-const Struct = require('@axetroy/struct');
+const { Struct, type } = require('@axetroy/struct');
 
 const data = {
   name: 'axetroy',
@@ -27,8 +27,8 @@ const data = {
 };
 
 const struct = new Struct({
-  name: Struct.type.string,
-  age: Struct.type.int
+  name: type.string,
+  age: type.int
 });
 
 const err = struct.validate(data);
@@ -39,7 +39,7 @@ console.log(err); // undefined, because the data pass the validator
 ### Advanced usage
 
 ```javascript
-const Struct = require('@axetroy/struct');
+const { Struct, type } = require('@axetroy/struct');
 
 const data = {
   name: 'axetroy',
@@ -55,17 +55,17 @@ const data = {
 };
 
 const struct = new Struct({
-  name: Struct.type.string,
-  age: Struct.type.int.gte(18), // age is int && and age >= 18
-  address: Struct.type.object({
-    city: Struct.type.string,
-    code: Struct.type.int.gte(100)
+  name: type.string,
+  age: type.int.gte(18), // age is int && and age >= 18
+  address: type.object({
+    city: type.string,
+    code: type.int.gte(100)
   }),
-  message: Struct.type.array(
-    Struct.type.object({
-      from: Struct.type.string,
-      msg: Struct.type.string,
-      timestamp: Struct.type.int
+  message: type.array(
+    type.object({
+      from: type.string,
+      msg: type.string,
+      timestamp: type.int
     })
   )
 });
@@ -103,6 +103,7 @@ build in type
 * [x] **lte(number)**, check a number less than a number or equal
 * [x] **bt(minNumber, maxNumber)**, check a number is between the min number and max number
 * [x] **in(array)**, check the value is in one of array
+* [x] **len(int)**, check the value length is equal an int
 
 #### Struct.validate(data)
 
@@ -135,9 +136,9 @@ const data = {
 };
 
 const struct = truct({
-  name: Struct.type.string,
-  age: Struct.type.int,
-  email: Struct.type.string.email // check string first, and then check email
+  name: type.string,
+  age: type.int,
+  email: type.string.email // check string first, and then check email
 });
 
 const err = struct.validate(data);

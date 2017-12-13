@@ -1,4 +1,4 @@
-const Struct = require('../index');
+const { Struct, type } = require('../index');
 
 // must name with xxx()
 Struct.define('gt()', function(argv) {
@@ -13,8 +13,8 @@ const data = {
 };
 
 const struct = Struct({
-  name: Struct.type.string,
-  age: Struct.type.int.gt(18) // check int first, and then check gt
+  name: type.string,
+  age: type.int.gt(18) // check int first, and then check gt
 });
 
 const err = struct.validate(data);

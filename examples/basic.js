@@ -1,13 +1,13 @@
-const Struct = require('../index');
+const { Struct, type } = require('../index');
 
 const data = {
-  name: "axetroy",
+  name: 'axetroy',
   age: 18
 };
 
-const struct = truct({
-  name: Struct.type.string,
-  age: Struct.type.int
+const struct = Struct({
+  name: type.string,
+  age: type.int
 });
 
 const err = struct.validate(data);
