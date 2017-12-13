@@ -87,6 +87,7 @@ Struct.define('lt()', require('./check/lt'));
 Struct.define('lte()', require('./check/lte'));
 Struct.define('bt()', require('./check/between'));
 Struct.define('in()', require('./check/in'));
+Struct.define('len()', require('./check/len'));
 
 Object.defineProperty(Struct, 'type', {
   enumerable: false,
