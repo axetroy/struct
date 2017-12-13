@@ -22,13 +22,52 @@ npm install @axetroy/struct
 const Struct = require('@axetroy/struct');
 
 const data = {
-  name: "axetroy",
+  name: 'axetroy',
   age: 18
 };
 
 const struct = new Struct({
   name: Struct.type.string,
   age: Struct.type.int
+});
+
+const err = struct.validate(data);
+
+console.log(err); // undefined, because the data pass the validator
+```
+
+### Advanced usage
+
+```javascript
+const Struct = require('@axetroy/struct');
+
+const data = {
+  name: 'axetroy',
+  age: 18,
+  address: {
+    city: 'DC',
+    code: 100
+  },
+  message: [
+    { from: 'marry', msg: 'How are you?', timestamp: 1513155028 },
+    { from: 'henry', msg: "How's going one?", timestamp: 1513135028 }
+  ]
+};
+
+const struct = new Struct({
+  name: Struct.type.string,
+  age: Struct.type.int.gte(18), // age is int && and age >= 18
+  address: Struct.type.object({
+    city: Struct.type.string,
+    code: Struct.type.int.gte(100)
+  }),
+  message: Struct.type.array(
+    Struct.type.object({
+      from: Struct.type.string,
+      msg: Struct.type.string,
+      timestamp: Struct.type.int
+    })
+  )
 });
 
 const err = struct.validate(data);
@@ -48,22 +87,22 @@ Get a type
 
 build in type
 
-- [x] **number**, check is a number 
-- [x] **int**, check is a int
-- [x] **float**, check is a float
-- [x] **string**, check is a string
-- [x] **odd**, check is a odd number
-- [x] **even**, check is a even number
-- [x] **json**, check ia a json string
-- [x] **object(object)**, define nest type
-- [x] **array(type)**, define array
-- [x] **eq(value)**, check equal something
-- [x] **gt(number)**, check a number greater than a number
-- [x] **gte(number)**, check a number greater than a number or equal
-- [x] **lt(number)**, check a number less than a 
-- [x] **lte(number)**, check a number less than a number or equal
-- [x] **bt(minNumber, maxNumber)**, check a number is between the min number and max number
-- [x] **in(array)**, check the value is in one of array
+* [x] **number**, check is a number
+* [x] **int**, check is a int
+* [x] **float**, check is a float
+* [x] **string**, check is a string
+* [x] **odd**, check is a odd number
+* [x] **even**, check is a even number
+* [x] **json**, check ia a json string
+* [x] **object(object)**, define nest type
+* [x] **array(type)**, define array
+* [x] **eq(value)**, check equal something
+* [x] **gt(number)**, check a number greater than a number
+* [x] **gte(number)**, check a number greater than a number or equal
+* [x] **lt(number)**, check a number less than a
+* [x] **lte(number)**, check a number less than a number or equal
+* [x] **bt(minNumber, maxNumber)**, check a number is between the min number and max number
+* [x] **in(array)**, check the value is in one of array
 
 #### Struct.validate(data)
 
@@ -71,12 +110,12 @@ Check the data is valid or not
 
 ##### What will **new Struct.validate(value)** return?
 
-- **undefined**, If you got this return value, that mean the data pass the all validator
-- **TypeError**, once anyone validator fail, it will return this error object, inherit from Error
-  - validator string: What validator fail
-  - keys []string: What key not pass the validator
-  - value any: The value which not pass the validator
-  - message string: The error message
+* **undefined**, If you got this return value, that mean the data pass the all validator
+* **TypeError**, once anyone validator fail, it will return this error object, inherit from Error
+  * validator string: What validator fail
+  * keys []string: What key not pass the validator
+  * value any: The value which not pass the validator
+  * message string: The error message
 
 ### How to write a custom validator
 
@@ -117,8 +156,11 @@ There is the [examples](https://github.com/axetroy/struct/tree/master/examples),
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+
 | [<img src="https://avatars1.githubusercontent.com/u/9758711?v=3" width="100px;"/><br /><sub>Axetroy</sub>](http://axetroy.github.io)<br />[💻](https://github.com/axetroy/Github/commits?author=axetroy) [🐛](https://github.com/axetroy/struct/issues?q=author%3Aaxetroy) 🎨 |
-| :---: |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## License
