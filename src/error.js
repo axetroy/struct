@@ -10,8 +10,9 @@ function TypeError(validateName, keys = [], value) {
     validateName +
     '" by "' +
     value +
-    '" in path ' +
-    keys.join('.');
+    '" in path "' +
+    this.keys.join('.') +
+    '"';
 }
 
 TypeError.prototype = new Error();
