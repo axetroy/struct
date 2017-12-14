@@ -28,21 +28,48 @@ npm install @axetroy/struct --save
 ```
 
 ```javascript
-const { Struct, type } = require('@axetroy/struct');
+const { Struct, type } = require('../index');
 
 const data = {
   name: 'axetroy',
-  age: 18
+  age: 18,
+  address: {
+    city: 'DC',
+    code: '12' // invalid city code
+  }
 };
 
-const struct = new Struct({
+const struct = Struct({
   name: type.string,
-  age: type.int
+  age: type.int,
+  address: type.object({
+    city: type.string,
+    code: type.int
+  })
 });
 
 const err = struct.validate(data);
 
-console.log(err); // undefined, because the data pass the validator
+console.log(err); // if all validator success, the error should be null
+
+
+/**
+{ Error
+    at Object.<anonymous> (/home/axetroy/gpm/github.com/axetroy/struct/src/error.js:18:23)
+    at Module._compile (module.js:635:30)
+    at Object.Module._extensions..js (module.js:646:10)
+    at Module.load (module.js:554:32)
+    at tryModuleLoad (module.js:497:12)
+    at Function.Module._load (module.js:489:3)
+    at Module.require (module.js:579:17)
+    at require (internal/module.js:11:18)
+    at Object.<anonymous> (/home/axetroy/gpm/github.com/axetroy/struct/src/type.js:2:19)
+    at Module._compile (module.js:635:30)
+  validator: 'int',
+  keys: [ 'address', 'code' ],
+  value: '12',
+  message: 'Can not pass the validator "int" by "12" in path "address.code"' }
+ */
 ```
 
 ### Advanced usage

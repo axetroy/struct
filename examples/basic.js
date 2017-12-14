@@ -4,7 +4,8 @@ const data = {
   name: 'axetroy',
   age: 18,
   address: {
-    cityCode: '12'
+    city: 'DC',
+    code: '12' // invalid city code
   }
 };
 
@@ -12,10 +13,11 @@ const struct = Struct({
   name: type.string,
   age: type.int,
   address: type.object({
-    cityCode: type.int
+    city: type.string,
+    code: type.int
   })
 });
 
 const err = struct.validate(data);
 
-console.log(err); // undefined, because the data pass the validator
+console.log(err); // if all validator success, the error should be null
