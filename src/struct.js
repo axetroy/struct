@@ -32,7 +32,7 @@ function Struct(structure, paths = []) {
     this.validate = function(data) {
       let err;
       // if the value is not a array
-      if (Array.isArray(data) === false) {
+      if (!Array.isArray(data)) {
         return new TypeError('array', paths, data);
       }
       // check every element of array
@@ -50,8 +50,8 @@ function Struct(structure, paths = []) {
         const type = structure[attr];
         if (
           type instanceof Type === false &&
-          utils.isPlainObject(type) === false &&
-          Array.isArray(type) === false
+          !utils.isPlainObject(type) &&
+          !Array.isArray(type)
         ) {
           throw new Error('Invalid type of key "' + attr + '"');
         }
@@ -83,42 +83,44 @@ Struct.prototype.validate = function(data) {
       let err;
       // did not found the type for this field
       if (!type) {
-        return new TypeError('undefined', paths, undefined);
+        err = new TypeError('undefined', paths, undefined);
       }
 
-      // if type is instanceof of Type
-      if (type instanceof Type) {
-        err = type.__exec__(field, value, this.paths);
-      } else if (utils.isPlainObject(type)) {
+      switch (!err) {
+        // if type is instanceof of Type
+        case type instanceof Type:
+          err = type.__exec__(field, value, this.paths);
+          break;
         // if type is an object
-        const s = new Struct(type, paths);
-        err = s.validate(value);
-      } else if (Array.isArray(type) === true) {
+        case utils.isPlainObject(type):
+          // if type is an object
+          const s = new Struct(type, paths);
+          err = s.validate(value);
+          break;
         // the type is an array
-
-        // if the value is not a array
-        if (Array.isArray(value) === false) {
-          return new TypeError('array', paths, value);
-        }
-
-        const t = type[0];
-
-        // if not define the type
-        if (!t || t instanceof Type === false) {
-          return new TypeError('array', paths, value);
-        }
-
-        // check every element of array
-        for (let i = 0; i < value.length; i++) {
-          err = t.__exec__(i, value[i], paths);
-          if (err) {
-            break;
+        case Array.isArray(type):
+          // if the value is not a array
+          if (!Array.isArray(value)) {
+            return new TypeError('array', paths, value);
           }
-        }
+
+          const t = type[0];
+
+          // if not define the type
+          if (!t || t instanceof Type === false) {
+            return new TypeError('array', paths, value);
+          }
+
+          // check every element of array
+          for (let i = 0; i < value.length; i++) {
+            err = t.__exec__(i, value[i], paths);
+            if (err) {
+              break;
+            }
+          }
+          break;
       }
-
       checkedMap[field] = true;
-
       if (err) {
         return err;
       }

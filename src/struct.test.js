@@ -276,3 +276,34 @@ test('define struct with object Literal', t => {
 
   t.deepEqual(err, void 0);
 });
+
+test('define struct Literal', t => {
+  const s = Struct(type.string);
+
+  const err = s.validate('123123');
+
+  t.deepEqual(err, void 0);
+
+  const err1 = s.validate(123);
+
+  t.deepEqual(err1.validator, 'string');
+  t.deepEqual(err1.value, 123);
+
+  const sarray = Struct([type.string]);
+
+  const err2 = sarray.validate(['string', 'array']);
+
+  t.deepEqual(err2, void 0);
+
+  const err3 = sarray.validate(['string', 'array', 123]);
+
+  t.deepEqual(err3.validator, 'string');
+  t.deepEqual(err3.keys, [2]);
+  t.deepEqual(err3.value, 123);
+
+  const err4 = sarray.validate('not array string');
+
+  t.deepEqual(err4.validator, 'array');
+  t.deepEqual(err4.keys, []);
+  t.deepEqual(err4.value, 'not array string');
+});
