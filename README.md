@@ -12,6 +12,14 @@
 
 A Modern, Scalable , Graceful, Easy Use data structure validator, Support browser and NodeJs
 
+- [x] All in Javascript. No Magic string.
+- [x] Most of type validator support in build in.
+- [x] Scalable, easy to define your customize validator.
+- [x] Validate with params, Support pass the argument to the validator.
+- [x] Pipe line, multiple validator work together.
+- [x] Support endless nest object, including Object and Array.
+- [x] Clear error message.
+
 ## Quick start
 
 ```npm
