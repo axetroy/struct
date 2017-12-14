@@ -97,6 +97,8 @@ Type.define('string', require('./check/string'));
 Type.define('number', require('./check/number'));
 Type.define('int', require('./check/int'));
 Type.define('float', require('./check/float'));
+Type.define('bool', require('./check/bool'));
+Type.define('any', require('./check/any'));
 Type.define('odd', require('./check/odd'));
 Type.define('even', require('./check/even'));
 Type.define('json', require('./check/json'));

@@ -5,8 +5,9 @@ const data = {
   age: 18,
   address: {
     city: 'DC',
-    code: '12' // invalid city code
-  }
+    code: 123 // invalid city code
+  },
+  ads: [9, 8, 7, 6, 5, 4, 3, 2, 1]
 };
 
 const struct = Struct({
@@ -15,7 +16,8 @@ const struct = Struct({
   address: type.object({
     city: type.string,
     code: type.int
-  })
+  }),
+  ads: type.array(type.int).len(10)
 });
 
 const err = struct.validate(data);
