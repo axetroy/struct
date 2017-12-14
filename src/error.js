@@ -8,7 +8,7 @@ function TypeError(validateName, keys = [], value) {
   this.message =
     'Can not pass the validator "' +
     validateName +
-    '" by "' +
+    '" with value "' +
     value +
     '" in path "' +
     this.keys.join('.') +

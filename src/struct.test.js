@@ -200,3 +200,79 @@ test('Invalid struct argument', t => {
     Struct(null);
   }, msg);
 });
+
+test('define struct with array Literal-1', t => {
+  const s = Struct({
+    name: type.string,
+    age: type.int,
+    nickname: [type.string]
+  });
+
+  const err = s.validate({
+    name: 'axetroy',
+    age: 18,
+    nickname: ['axe', 'troy']
+  });
+
+  t.deepEqual(err, void 0);
+
+  const err1 = s.validate({
+    name: 'axetroy',
+    age: 18,
+    nickname: 123 // nickname should be an array
+  });
+
+  t.deepEqual(err1.keys, ['nickname']);
+  t.deepEqual(err1.validator, 'array');
+  t.deepEqual(err1.value, 123);
+
+  const err2 = s.validate({
+    name: 'axetroy',
+    age: 18,
+    nickname: ['a', 'b', 'c', 1, 2, 3] // should all element is string, but we got 1,2,3
+  });
+
+  t.deepEqual(err2.keys, ['nickname', 3]);
+  t.deepEqual(err2.validator, 'string');
+  t.deepEqual(err2.value, 1);
+});
+
+test('define struct with array Literal-2', t => {
+  const s = Struct({
+    name: type.string,
+    age: type.int,
+    nickname: [] // empty element
+  });
+
+  const err = s.validate({
+    name: 'axetroy',
+    age: 18,
+    nickname: ['axe', 'troy']
+  });
+
+  t.deepEqual(err.keys, ['nickname']);
+  t.deepEqual(err.validator, 'array');
+  t.deepEqual(err.value, ['axe', 'troy']);
+});
+
+test('define struct with object Literal', t => {
+  const s = Struct({
+    name: type.string,
+    age: type.int,
+    address: {
+      code: type.int,
+      city: type.string
+    }
+  });
+
+  const err = s.validate({
+    name: 'axetroy',
+    age: 18,
+    address: {
+      code: 10086,
+      city: 'dc'
+    }
+  });
+
+  t.deepEqual(err, void 0);
+});
