@@ -3,7 +3,7 @@ function TypeError(validateName, keys = [], value) {
     return new TypeError(validateName);
   }
   this.validator = validateName;
-  this.keys = (keys || []).filter(v => v);
+  this.keys = keys.filter(v => v);
   this.value = value;
   this.message =
     'Can not pass the validator "' +

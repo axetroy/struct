@@ -51,7 +51,6 @@ Type.prototype.__exec__ = function(key, val, parentKeys = []) {
  */
 Type.define = function(name, checker) {
   if (utils.isFunction(checker) === false) {
-    console.log(name, checker);
     throw new Error('The argument must be 1: string, 2: function');
   }
   const isFunctional = /\w+\(\)$/.test(name); // which name like this .gte()

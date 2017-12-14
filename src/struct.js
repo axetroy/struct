@@ -52,11 +52,6 @@ Struct.prototype.validate = function(data) {
       if (!type) {
         return new TypeError('undefined', [key], undefined);
       }
-
-      if (type instanceof Type === false) {
-        return new Error('The type of ' + key + ' is undefined');
-      }
-
       let err = type.__exec__(key, value, []);
       checkedMap[key] = true;
       if (err) {
