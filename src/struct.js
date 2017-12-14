@@ -2,6 +2,12 @@ const { Type, type } = require('./type');
 const utils = require('./utils');
 const TypeError = require('./error');
 
+/**
+ * Create a structure
+ * @param structure
+ * @returns {Struct}
+ * @constructor
+ */
 function Struct(structure) {
   if (this instanceof Struct === false) {
     return new Struct(structure);
@@ -25,20 +31,24 @@ function Struct(structure) {
   }
 }
 
+/**
+ * constructor
+ * @type {Struct}
+ */
 Struct.prototype.constructor = Struct;
 /**
  * run validator, if false, it will return an error
- * @param obj
+ * @param data
  * @returns {*}
  */
-Struct.prototype.validate = function(obj) {
+Struct.prototype.validate = function(data) {
   const checkedMap = {}; // mark what key have been check
   const structure = this.structure;
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      const value = obj[key];
+  for (let key in data) {
+    if (data.hasOwnProperty(key)) {
+      const value = data[key];
       const type = structure[key];
-      // not define the type
+      // did not found the type for this field
       if (!type) {
         return new TypeError('undefined', [key], undefined);
       }
@@ -59,8 +69,9 @@ Struct.prototype.validate = function(obj) {
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
+    // if found excess field
     if (!checkedMap[key]) {
-      return new TypeError('require', [key], undefined);
+      return new TypeError('required', [key], data[key]);
     }
   }
 };
@@ -71,29 +82,6 @@ Struct.prototype.validate = function(obj) {
  * @param func
  */
 Struct.define = Type.define.bind(Type);
-
-// define the official checker
-
-// property check
-Struct.define('string', require('./check/string'));
-Struct.define('number', require('./check/number'));
-Struct.define('int', require('./check/int'));
-Struct.define('float', require('./check/float'));
-Struct.define('odd', require('./check/odd'));
-Struct.define('even', require('./check/even'));
-Struct.define('json', require('./check/json'));
-
-// functional check
-Struct.define('object()', require('./check/object'));
-Struct.define('array()', require('./check/array'));
-Struct.define('eq()', require('./check/eq'));
-Struct.define('gt()', require('./check/gt'));
-Struct.define('gte()', require('./check/gte'));
-Struct.define('lt()', require('./check/lt'));
-Struct.define('lte()', require('./check/lte'));
-Struct.define('bt()', require('./check/between'));
-Struct.define('in()', require('./check/in'));
-Struct.define('len()', require('./check/len'));
 
 module.exports = Struct;
 module.exports.Struct = Struct;

@@ -15,9 +15,6 @@ test('new Type()', t => {
 });
 
 test('new Type() and define', t => {
-  Type.define('string', require('./check/string'));
-  Type.define('int', require('./check/int'));
-
   const type = Type();
 
   t.deepEqual(type.task, []);
@@ -46,11 +43,11 @@ test('new Type() and define', t => {
   t.deepEqual(type.raw.length, 2);
 });
 
-test('define checker with invalid argument', t => {
-  t.throws(function() {
-    Type.define('hello', null);
-  }, `The argument must be 1: string, 2: function`);
-});
+// test('define checker with invalid argument', t => {
+//   t.throws(function() {
+//     Type.define('hello', null);
+//   }, `The argument must be 1: string, 2: function`);
+// });
 
 test('Type Error', t => {
   const checker = 'int';

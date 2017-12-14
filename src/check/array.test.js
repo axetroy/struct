@@ -60,9 +60,9 @@ test('.array() nest object not pass', t => {
     }
   ]);
   t.true(err1 instanceof TypeError);
-  t.deepEqual(err1.keys, [1]);
-  t.deepEqual(err1.value, { name: 'heri', age: '21' });
-  t.deepEqual(err1.validator, 'object()');
+  t.deepEqual(err1.keys, [1, 'age']);
+  t.deepEqual(err1.value, '21');
+  t.deepEqual(err1.validator, 'int');
 });
 
 test('.array() invalid type define', t => {

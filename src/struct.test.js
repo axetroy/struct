@@ -56,7 +56,7 @@ test('undefined type', t => {
   });
 
   t.true(err1 instanceof TypeError);
-  t.deepEqual(err1.validator, 'require');
+  t.deepEqual(err1.validator, 'required');
 });
 
 test('basic nest stuct', t => {
@@ -83,7 +83,7 @@ test('basic nest stuct', t => {
     }
   });
   t.true(err2 instanceof TypeError);
-  t.deepEqual(err2.validator, 'object()');
+  t.deepEqual(err2.validator, 'int');
 });
 
 test('object nest object', t => {
@@ -123,7 +123,7 @@ test('object nest object', t => {
   });
 
   t.true(err2 instanceof TypeError);
-  t.deepEqual(err2.validator, 'object()');
+  t.deepEqual(err2.validator, 'int');
 });
 
 test('invalid type field', t => {
