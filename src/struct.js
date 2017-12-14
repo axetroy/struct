@@ -16,49 +16,53 @@ function Struct(structure, paths = []) {
   this.paths = paths;
   this.structure = structure;
 
-  if (structure instanceof Type) {
-    // rewrite the validate method
-    this.validate = function(data) {
-      return structure.__exec__(void 0, data, []);
-    };
-  } else if (Array.isArray(structure)) {
-    const t = structure[0];
-    // if not define the type
-    if (!t || t instanceof Type === false) {
-      throw new Error(`Array struct should contain an element type.`);
-    }
+  switch (true) {
+    case structure instanceof Type:
+      // rewrite the validate method
+      this.validate = function(data) {
+        return structure.__exec__(void 0, data, []);
+      };
+      break;
+    case Array.isArray(structure):
+      const t = structure[0];
+      // if not define the type
+      if (!t || t instanceof Type === false) {
+        throw new Error(`Array struct should contain an element type.`);
+      }
 
-    // rewrite the validate method
-    this.validate = function(data) {
-      let err;
-      // if the value is not a array
-      if (!Array.isArray(data)) {
-        return new TypeError('array', paths, data);
-      }
-      // check every element of array
-      for (let i = 0; i < data.length; i++) {
-        err = t.__exec__(i, data[i], paths);
-        if (err) {
-          break;
+      // rewrite the validate method
+      this.validate = function(data) {
+        let err;
+        // if the value is not a array
+        if (!Array.isArray(data)) {
+          return new TypeError('array', paths, data);
+        }
+        // check every element of array
+        for (let i = 0; i < data.length; i++) {
+          err = t.__exec__(i, data[i], paths);
+          if (err) {
+            break;
+          }
+        }
+        return err;
+      };
+      break;
+    case utils.isPlainObject(structure):
+      for (let attr in structure) {
+        if (structure.hasOwnProperty(attr)) {
+          const type = structure[attr];
+          if (
+            type instanceof Type === false &&
+            !utils.isPlainObject(type) &&
+            !Array.isArray(type)
+          ) {
+            throw new Error('Invalid type of key "' + attr + '"');
+          }
         }
       }
-      return err;
-    };
-  } else if (utils.isPlainObject(structure)) {
-    for (let attr in structure) {
-      if (structure.hasOwnProperty(attr)) {
-        const type = structure[attr];
-        if (
-          type instanceof Type === false &&
-          !utils.isPlainObject(type) &&
-          !Array.isArray(type)
-        ) {
-          throw new Error('Invalid type of key "' + attr + '"');
-        }
-      }
-    }
-  } else {
-    throw new Error('Invalid struct argument, It can be Type/Object/Array.');
+      break;
+    default:
+      throw new Error('Invalid struct argument, It can be Type/Object/Array.');
   }
 }
 
@@ -83,7 +87,7 @@ Struct.prototype.validate = function(data) {
       let err;
       // did not found the type for this field
       if (!type) {
-        err = new TypeError('undefined', paths, undefined);
+        return new TypeError('undefined', paths, value);
       }
 
       switch (!err) {

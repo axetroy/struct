@@ -32,14 +32,8 @@ Type.prototype.__exec__ = function(key, val, parentKeys = []) {
     const task = tasks.shift();
     const validator = task.__name__;
     const err = task.call(this, val);
-    if (err === false) {
+    if (err !== true) {
       return new TypeError(validator, parentKeys.concat(key, err.keys), val);
-    } else if (err instanceof TypeError) {
-      return new TypeError(
-        err.validator,
-        parentKeys.concat(key, err.keys),
-        err.value
-      );
     }
   }
 };
@@ -93,26 +87,24 @@ Type.define = function(name, checker) {
 // define the official checker
 
 // property check
-Type.define('string', require('./check/string'));
-Type.define('number', require('./check/number'));
-Type.define('int', require('./check/int'));
-Type.define('float', require('./check/float'));
-Type.define('bool', require('./check/bool'));
-Type.define('any', require('./check/any'));
-Type.define('odd', require('./check/odd'));
-Type.define('even', require('./check/even'));
-Type.define('json', require('./check/json'));
+Type.define('string', require('./validator/string'));
+Type.define('number', require('./validator/number'));
+Type.define('int', require('./validator/int'));
+Type.define('float', require('./validator/float'));
+Type.define('bool', require('./validator/bool'));
+Type.define('any', require('./validator/any'));
+Type.define('odd', require('./validator/odd'));
+Type.define('even', require('./validator/even'));
+Type.define('json', require('./validator/json'));
 
 // functional check
-Type.define('object()', require('./check/object'));
-Type.define('array()', require('./check/array'));
-Type.define('eq()', require('./check/eq'));
-Type.define('gt()', require('./check/gt'));
-Type.define('gte()', require('./check/gte'));
-Type.define('lt()', require('./check/lt'));
-Type.define('lte()', require('./check/lte'));
-Type.define('bt()', require('./check/between'));
-Type.define('in()', require('./check/in'));
-Type.define('len()', require('./check/len'));
+Type.define('eq()', require('./validator/eq'));
+Type.define('gt()', require('./validator/gt'));
+Type.define('gte()', require('./validator/gte'));
+Type.define('lt()', require('./validator/lt'));
+Type.define('lte()', require('./validator/lte'));
+Type.define('bt()', require('./validator/between'));
+Type.define('in()', require('./validator/in'));
+Type.define('len()', require('./validator/len'));
 
 module.exports = { Type, type: TypeTree };

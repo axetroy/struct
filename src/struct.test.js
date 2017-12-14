@@ -62,9 +62,9 @@ test('undefined type', t => {
 test('basic nest stuct', t => {
   const s = Struct({
     name: type.string,
-    info: type.object({
+    info: {
       age: type.int
-    })
+    }
   });
 
   const err1 = s.validate({
@@ -89,13 +89,13 @@ test('basic nest stuct', t => {
 test('object nest object', t => {
   const s = Struct({
     name: type.string,
-    info: type.object({
+    info: {
       age: type.int,
-      location: type.object({
+      location: {
         x: type.int,
         y: type.int
-      })
-    })
+      }
+    }
   });
 
   const err1 = s.validate({
@@ -134,17 +134,19 @@ test('invalid type field', t => {
   });
 });
 
-test('skip the field which did not define', t => {
-  t.notThrows(function() {
-    const s = Struct({
-      name: type.string
-    });
-
-    s.validate({
-      name: 'axetroy',
-      age: 18 // did not define the field
-    });
+test('will not skip the field which did not define', t => {
+  const s = Struct({
+    name: type.string
   });
+
+  const err = s.validate({
+    name: 'axetroy',
+    age: 18 // did not define the field, not allow it
+  });
+
+  t.deepEqual(err.keys, ['age']);
+  t.deepEqual(err.validator, 'undefined');
+  t.deepEqual(err.value, 18);
 });
 
 test('define custom type', t => {
@@ -258,7 +260,7 @@ test('define struct with array Literal-2', t => {
 test('define struct with object Literal', t => {
   const s = Struct({
     name: type.string,
-    age: type.int,
+    age: type.int.gte(18),
     address: {
       code: type.int,
       city: type.string

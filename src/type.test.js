@@ -15,8 +15,8 @@ test('new Type()', t => {
 });
 
 test('new Type() and define', t => {
-  Type.define('string', require('./check/string'));
-  Type.define('int', require('./check/int'));
+  Type.define('string', require('./validator/string'));
+  Type.define('int', require('./validator/int'));
   const type = Type();
 
   t.deepEqual(type.task, []);
