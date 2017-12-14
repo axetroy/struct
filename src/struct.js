@@ -17,12 +17,14 @@ function Struct(structure, paths = []) {
   this.structure = structure;
 
   switch (true) {
+    // type.string
     case structure instanceof Type:
       // rewrite the validate method
       this.validate = function(data) {
         return structure.__exec__(void 0, data, []);
       };
       break;
+    // []
     case Array.isArray(structure):
       const t = structure[0];
       // if not define the type
@@ -47,6 +49,7 @@ function Struct(structure, paths = []) {
         return err;
       };
       break;
+    // {age: type.string}
     case utils.isPlainObject(structure):
       for (let attr in structure) {
         if (structure.hasOwnProperty(attr)) {
@@ -95,12 +98,6 @@ Struct.prototype.validate = function(data) {
         case type instanceof Type:
           err = type.__exec__(field, value, this.paths);
           break;
-        // if type is an object
-        case utils.isPlainObject(type):
-          // if type is an object
-          const s = new Struct(type, paths);
-          err = s.validate(value);
-          break;
         // the type is an array
         case Array.isArray(type):
           // if the value is not a array
@@ -110,8 +107,19 @@ Struct.prototype.validate = function(data) {
 
           const t = type[0];
 
-          // if not define the type
-          if (!t || t instanceof Type === false) {
+          if (utils.isPlainObject(t) || Array.isArray(t)) {
+            const s = new Struct(t, paths);
+            for (let i = 0; i < value.length; i++) {
+              s.paths = s.paths.concat(i);
+              err = s.validate(value[i]);
+              s.paths.pop();
+              if (err) {
+                break;
+              }
+            }
+            return err;
+          } else if (!t || t instanceof Type === fals) {
+            // if not define the type
             return new TypeError('array', paths, value);
           }
 
@@ -122,6 +130,12 @@ Struct.prototype.validate = function(data) {
               break;
             }
           }
+          break;
+        // if type is an object
+        case utils.isPlainObject(type):
+          // if type is an object
+          const s = new Struct(type, paths);
+          err = s.validate(value);
           break;
       }
       checkedMap[field] = true;

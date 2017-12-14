@@ -5,9 +5,21 @@ const data = {
   age: 18,
   address: {
     city: 'DC',
-    code: 123 // invalid city code
+    code: 123 // invalid city code,
   },
-  ads: [9, 8, 7, 6, 5, 4, 3, 2, 1]
+  // ads: [9, 8, 7, 6, 5, 4, 3, 2, 1],
+  friends: [
+    {
+      name: 'marry',
+      age: 22,
+      city: 'DB'
+    },
+    {
+      name: 'soe',
+      age: 19,
+      city: 'CA'
+    }
+  ]
 };
 
 const struct = Struct({
@@ -17,7 +29,14 @@ const struct = Struct({
     city: type.string,
     code: type.int
   },
-  ads: [type.int]
+  // ads: [type.int],
+  friends: [
+    {
+      name: type.string,
+      age: type.int,
+      city: type.string
+    }
+  ]
 });
 
 const err = struct.validate(data);

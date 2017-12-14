@@ -234,7 +234,9 @@ test('define struct with array Literal-1', t => {
     nickname: ['a', 'b', 'c', 1, 2, 3] // should all element is string, but we got 1,2,3
   });
 
-  t.deepEqual(err2.keys, ['nickname', 3]);
+  console.log(err2);
+
+  t.deepEqual(err2.keys, ['nickname']);
   t.deepEqual(err2.validator, 'string');
   t.deepEqual(err2.value, 1);
 });
