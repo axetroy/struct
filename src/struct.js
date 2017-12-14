@@ -107,29 +107,48 @@ Struct.prototype.validate = function(data) {
 
           const t = type[0];
 
-          if (utils.isPlainObject(t) || Array.isArray(t)) {
-            const s = new Struct(t, paths);
-            for (let i = 0; i < value.length; i++) {
-              s.paths = s.paths.concat(i);
-              err = s.validate(value[i]);
-              s.paths.pop();
-              if (err) {
-                break;
+          switch (true) {
+            case t instanceof Type: //[type.string]
+              // check every element of array
+              for (let i = 0; i < value.length; i++) {
+                err = t.__exec__(i, value[i], paths);
+                if (err) {
+                  break;
+                }
               }
-            }
-            return err;
-          } else if (!t || t instanceof Type === fals) {
-            // if not define the type
-            return new TypeError('array', paths, value);
+              break;
+            case utils.isPlainObject(t) || Array.isArray(t): // [{name: type.string}]
+              // check one by one element
+              (function() {
+                const structObject = new Struct(t, paths);
+                for (let i = 0; i < value.length; i++) {
+                  structObject.paths = structObject.paths.concat(i);
+                  err = structObject.validate(value[i]);
+                  structObject.paths.pop();
+                  if (err) {
+                    break;
+                  }
+                }
+              })();
+              break;
+            // case Array.isArray(t): // [[]]
+            //   (function() {
+            //     console.log('发现嵌套数组', value[0], value.length, t);
+            //     const structArray = new Struct(t, paths);
+            //     for (let i = 0; i < value.length; i++) {
+            //       structArray.paths = structArray.paths.concat(i);
+            //       err = structArray.validate(value[i]);
+            //       structArray.paths.pop();
+            //       if (err) {
+            //         break;
+            //       }
+            //     }
+            //   })();
+            //   break;
+            default:
+              return new TypeError('array', paths, value);
           }
 
-          // check every element of array
-          for (let i = 0; i < value.length; i++) {
-            err = t.__exec__(i, value[i], paths);
-            if (err) {
-              break;
-            }
-          }
           break;
         // if type is an object
         case utils.isPlainObject(type):

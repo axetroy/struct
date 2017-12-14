@@ -234,9 +234,7 @@ test('define struct with array Literal-1', t => {
     nickname: ['a', 'b', 'c', 1, 2, 3] // should all element is string, but we got 1,2,3
   });
 
-  console.log(err2);
-
-  t.deepEqual(err2.keys, ['nickname']);
+  t.deepEqual(err2.keys, ['nickname', 3]);
   t.deepEqual(err2.validator, 'string');
   t.deepEqual(err2.value, 1);
 });
@@ -258,6 +256,22 @@ test('define struct with array Literal-2', t => {
   t.deepEqual(err.validator, 'array');
   t.deepEqual(err.value, ['axe', 'troy']);
 });
+
+// test('define struct with array Literal-3', t => {
+//   const s = Struct({
+//     name: type.string,
+//     age: type.int,
+//     nickname: [[[type.string]]]
+//   });
+//
+//   const err = s.validate({
+//     name: 'axetroy',
+//     age: 18,
+//     nickname: [[['axe', 'troy']], [[['hello', 'world']]]]
+//   });
+//
+//   t.deepEqual(err, void 0);
+// });
 
 test('define struct with object Literal', t => {
   const s = Struct({
