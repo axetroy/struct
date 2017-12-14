@@ -16,21 +16,49 @@ function Struct(structure, paths = []) {
   this.paths = paths;
   this.structure = structure;
 
-  if (utils.isPlainObject(structure) === false) {
-    throw new Error('Argument of Struct must be an object!');
-  }
+  if (structure instanceof Type) {
+    // rewrite the validate method
+    this.validate = function(data) {
+      return structure.__exec__(void 0, data, []);
+    };
+  } else if (Array.isArray(structure)) {
+    const t = structure[0];
+    // if not define the type
+    if (!t || t instanceof Type === false) {
+      throw new Error(`Array struct should contain an element type.`);
+    }
 
-  for (let attr in structure) {
-    if (structure.hasOwnProperty(attr)) {
-      const type = structure[attr];
-      if (
-        type instanceof Type === false &&
-        utils.isPlainObject(type) === false &&
-        Array.isArray(type) === false
-      ) {
-        throw new Error('Invalid type of key "' + attr + '"');
+    // rewrite the validate method
+    this.validate = function(data) {
+      let err;
+      // if the value is not a array
+      if (Array.isArray(data) === false) {
+        return new TypeError('array', paths, data);
+      }
+      // check every element of array
+      for (let i = 0; i < data.length; i++) {
+        err = t.__exec__(i, data[i], paths);
+        if (err) {
+          break;
+        }
+      }
+      return err;
+    };
+  } else if (utils.isPlainObject(structure)) {
+    for (let attr in structure) {
+      if (structure.hasOwnProperty(attr)) {
+        const type = structure[attr];
+        if (
+          type instanceof Type === false &&
+          utils.isPlainObject(type) === false &&
+          Array.isArray(type) === false
+        ) {
+          throw new Error('Invalid type of key "' + attr + '"');
+        }
       }
     }
+  } else {
+    throw new Error('Invalid struct argument, It can be Type/Object/Array.');
   }
 }
 
@@ -76,7 +104,7 @@ Struct.prototype.validate = function(data) {
         const t = type[0];
 
         // if not define the type
-        if (!t) {
+        if (!t || t instanceof Type === false) {
           return new TypeError('array', paths, value);
         }
 

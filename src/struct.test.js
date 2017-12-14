@@ -174,7 +174,7 @@ test('define custom type', t => {
 });
 
 test('Invalid struct argument', t => {
-  const msg = `Argument of Struct must be an object!`;
+  const msg = 'Invalid struct argument, It can be Type/Object/Array.';
   // invalid struct argument
   t.throws(function() {
     Struct(null);
@@ -182,7 +182,7 @@ test('Invalid struct argument', t => {
 
   t.throws(function() {
     Struct([]);
-  }, msg);
+  });
 
   t.throws(function() {
     Struct(0);
