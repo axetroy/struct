@@ -2,19 +2,19 @@ const { Type, type } = require('./type');
 const utils = require('./utils');
 const TypeError = require('./error');
 
-function Struct(typer) {
+function Struct(structure) {
   if (this instanceof Struct === false) {
-    return new Struct(typer);
+    return new Struct(structure);
   }
-  this.typer = typer;
+  this.structure = structure;
 
-  if (utils.isPlainObject(typer) === false) {
+  if (utils.isPlainObject(structure) === false) {
     throw new Error('Argument of Struct must be an object!');
   }
 
-  for (let attr in typer) {
-    if (typer.hasOwnProperty(attr)) {
-      const type = typer[attr];
+  for (let attr in structure) {
+    if (structure.hasOwnProperty(attr)) {
+      const type = structure[attr];
       if (
         type instanceof Type === false &&
         utils.isPlainObject(type) === false
@@ -32,13 +32,13 @@ Struct.prototype.constructor = Struct;
  * @returns {*}
  */
 Struct.prototype.validate = function(obj) {
-  const checked = [];
-  const typer = this.typer;
+  const checkedMap = {}; // mark what key have been check
+  const structure = this.structure;
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       const value = obj[key];
-      const type = typer[key];
-      // if this key is not define the type then skip
+      const type = structure[key];
+      // not define the type
       if (!type) {
         return new TypeError('undefined', [key], undefined);
       }
@@ -48,18 +48,19 @@ Struct.prototype.validate = function(obj) {
       }
 
       let err = type.__exec__(key, value, []);
-      checked.push(key);
+      checkedMap[key] = true;
       if (err) {
         return err;
       }
     }
   }
-  for (let key in typer) {
-    if (typer.hasOwnProperty(key)) {
-      // have someone key not check
-      if (checked.findIndex(v => v === key) < 0) {
-        return new TypeError('require', [key], undefined);
-      }
+
+  const keys = Object.keys(structure);
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    if (!checkedMap[key]) {
+      return new TypeError('require', [key], undefined);
     }
   }
 };
