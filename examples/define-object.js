@@ -12,10 +12,10 @@ const data = {
 const struct = Struct({
   name: type.string,
   age: type.int,
-  hometown: type.object({
+  hometown: {
     city: type.string,
     code: type.int
-  })
+  }
 });
 
 const err = struct.validate(data);

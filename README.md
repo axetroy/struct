@@ -42,16 +42,15 @@ const data = {
 const struct = Struct({
   name: type.string,
   age: type.int,
-  address: type.object({
+  address: {
     city: type.string,
     code: type.int
-  })
+  }
 });
 
 const err = struct.validate(data);
 
 console.log(err); // if all validator success, the error should be null
-
 
 /**
 { Error
@@ -93,17 +92,17 @@ const data = {
 const struct = new Struct({
   name: type.string,
   age: type.int.gte(18), // age is int && and age >= 18
-  address: type.object({
+  address: {
     city: type.string,
     code: type.int.gte(100)
-  }),
-  message: type.array(
-    type.object({
+  },
+  message: [
+    {
       from: type.string,
       msg: type.string,
       timestamp: type.int
-    })
-  )
+    }
+  ]
 });
 
 const err = struct.validate(data);

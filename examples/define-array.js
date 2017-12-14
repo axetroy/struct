@@ -9,7 +9,7 @@ const data = {
 const struct = Struct({
   name: type.string,
   age: type.int,
-  friends: type.array(type.string)
+  friends: [type.string]
 });
 
 const err = struct.validate(data);

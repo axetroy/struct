@@ -13,11 +13,11 @@ const data = {
 const struct = Struct({
   name: type.string,
   age: type.int,
-  address: type.object({
+  address: {
     city: type.string,
     code: type.int
-  }),
-  ads: type.array(type.int).len(10)
+  },
+  ads: [type.int]
 });
 
 const err = struct.validate(data);
