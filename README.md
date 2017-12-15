@@ -13,7 +13,7 @@
 A Modern, Scalable , Graceful, Easy Use data structure validator, Support browser and NodeJs
 
 * [x] All in Javascript. No Magic string.
-* [x] Strict mode, no one excess field
+* [x] Strict mode, no one excess field.
 * [x] Most of type validator support.
 * [x] Scalable, easy to define your customize validator.
 * [x] Highly customizable.
@@ -21,6 +21,7 @@ A Modern, Scalable , Graceful, Easy Use data structure validator, Support browse
 * [x] Pipe line, multiple validator work together.
 * [x] Support endless nest object, including Object and Array.
 * [x] Clear error message.
+* [x] Support nest Struct
 
 ## Quick start
 
