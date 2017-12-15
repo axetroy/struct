@@ -111,13 +111,57 @@ const err = struct.validate(data);
 console.log(err); // undefined, because the data pass the validator
 ```
 
-### API
-
-#### new Struct(object)
+### class: Struct
 
 Create a struct
 
-#### Stuct.type.xxx
+```javascript
+const { Struct, type } = require('@axetroy/struct');
+
+const struct1 = new Struct(type.string);
+const struct2 = Struct(type.string);
+```
+
+#### static [Struct.define](#static: Type.define)
+
+#### struct.validate(data)
+
+* `data`: <\*>
+* returns: <Undefined | TypeError>
+
+```javascript
+const err = Struct.validate({ word: 'Hello world' });
+```
+
+validate the data is match with struct, if all match. return `undefined`, if not, return an `TypeError`
+
+### class: Type
+
+Create a type
+
+#### static: Type.define(validatorName, handler)
+
+* validatorName: <String>
+* handler: <(input):bool | (argv):(input):bool>
+
+```javascript
+Type.define('email', function(input) {
+  // here to check is it a email string
+  return true;
+});
+```
+
+define a customize type
+
+#### type.xxx
+
+```javascript
+const stringType = type.string;
+const intType = type.int;
+const composingType = type.int.gte(100);
+```
+
+Here is the build in type
 
 * [x] **number**
 * [x] **int**
@@ -140,67 +184,15 @@ Create a struct
 * [x] **len(int)**
 * [x] **msg(message)**
 
-#### Struct.validate(data)
+### class: TypeError
 
-Check the data is valid or not
+* **validator**: What validator fail
+* **path**: What key not pass the validator
+* **value**: The value which not pass the validator
+* **message**: The error message
+* **detail**: The error message
 
-#### What will **new Struct.validate(value)** return?
-
-* **undefined**, If you got this return value, that mean the data pass the all validator
-* **TypeError**, if anyone validator fail, it will return this error, inherit from Error
-  * **validator**: What validator fail
-  * **path**: What key not pass the validator
-  * **value**: The value which not pass the validator
-  * **message**: The error message
-  * **detail**: The error message
-
-### How to define customized error message?
-
-```javascript
-const Struct = require('@axetroy/struct');
-
-const data = {
-  name: 'axetroy',
-  age: 17 // 17 < 18, it will throw an error
-};
-
-const struct = Struct({
-  name: type.string,
-  age: type.int.gte(18).msg('Must be an adult')
-});
-
-const err = struct.validate(data);
-
-console.error(err.message); // 'Must be an adult'
-```
-
-### How to write a custom validator?
-
-```javascript
-const Struct = require('../index');
-
-Struct.define('email', function(input) {
-  return /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.test(
-    input
-  );
-});
-
-const data = {
-  name: 'axetroy',
-  age: 18,
-  email: 'xxx@axetroy.com'
-};
-
-const struct = truct({
-  name: type.string,
-  age: type.int,
-  email: type.string.email // check string first, and then check email
-});
-
-const err = struct.validate(data);
-
-console.log(err); // undefined, because the data pass the validator
-```
+The TypeError inherit from Error
 
 ### Examples
 
