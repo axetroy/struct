@@ -31,9 +31,17 @@ Type.prototype.__exec__ = function(key, val, parentKeys = []) {
   while (tasks.length) {
     const task = tasks.shift();
     const validator = task.__name__;
-    const err = task.call(this, val);
-    if (err !== true) {
-      return new TypeError(validator, parentKeys.concat(key, err.keys), val);
+    const result = task.call(this, val);
+    if (result === false) {
+      const err = new TypeError(
+        validator,
+        parentKeys.concat(key, result.path),
+        val
+      );
+      if (this.message) {
+        err.message = this.message;
+      }
+      return err;
     }
   }
 };
@@ -106,5 +114,6 @@ Type.define('lte()', require('./validator/lte'));
 Type.define('bt()', require('./validator/between'));
 Type.define('in()', require('./validator/in'));
 Type.define('len()', require('./validator/len'));
+Type.define('msg()', require('./validator/msg'));
 
 module.exports = { Type, type: TypeTree };

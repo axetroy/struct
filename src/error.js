@@ -3,16 +3,17 @@ function TypeError(validateName, keys = [], value) {
     return new TypeError(validateName);
   }
   this.validator = validateName;
-  this.keys = keys.filter(v => v !== void 0);
+  this.path = keys.filter(v => v !== void 0);
   this.value = value;
-  this.message =
+  this.detail =
     'Can not pass the validator "' +
     validateName +
     '" with value "' +
     value +
     '" in path "' +
-    this.keys.join('.') +
+    this.path.join('.') +
     '"';
+  this.message = this.detail;
 }
 
 TypeError.prototype = new Error();

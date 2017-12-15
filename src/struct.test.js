@@ -144,7 +144,7 @@ test('will not skip the field which did not define', t => {
     age: 18 // did not define the field, not allow it
   });
 
-  t.deepEqual(err.keys, ['age']);
+  t.deepEqual(err.path, ['age']);
   t.deepEqual(err.validator, 'undefined');
   t.deepEqual(err.value, 18);
 });
@@ -224,7 +224,7 @@ test('define struct with array Literal-1', t => {
     nickname: 123 // nickname should be an array
   });
 
-  t.deepEqual(err1.keys, ['nickname']);
+  t.deepEqual(err1.path, ['nickname']);
   t.deepEqual(err1.validator, 'array');
   t.deepEqual(err1.value, 123);
 
@@ -234,7 +234,7 @@ test('define struct with array Literal-1', t => {
     nickname: ['a', 'b', 'c', 1, 2, 3] // should all element is string, but we got 1,2,3
   });
 
-  t.deepEqual(err2.keys, ['nickname', 3]);
+  t.deepEqual(err2.path, ['nickname', 3]);
   t.deepEqual(err2.validator, 'string');
   t.deepEqual(err2.value, 1);
 });
@@ -252,7 +252,7 @@ test('define struct with array Literal-2', t => {
     nickname: ['axe', 'troy']
   });
 
-  t.deepEqual(err.keys, ['nickname']);
+  t.deepEqual(err.path, ['nickname']);
   t.deepEqual(err.validator, 'array');
   t.deepEqual(err.value, ['axe', 'troy']);
 });
@@ -348,7 +348,7 @@ test('define struct with array Literal-3', t => {
     ]
   });
 
-  t.deepEqual(err2.keys, ['friends', 0, 'message', 1, 'msg']);
+  t.deepEqual(err2.path, ['friends', 0, 'message', 1, 'msg']);
   t.deepEqual(err2.value, 123);
 });
 
@@ -395,12 +395,27 @@ test('define struct Literal', t => {
   const err3 = sarray.validate(['string', 'array', 123]);
 
   t.deepEqual(err3.validator, 'string');
-  t.deepEqual(err3.keys, [2]);
+  t.deepEqual(err3.path, [2]);
   t.deepEqual(err3.value, 123);
 
   const err4 = sarray.validate('not array string');
 
   t.deepEqual(err4.validator, 'array');
-  t.deepEqual(err4.keys, []);
+  t.deepEqual(err4.path, []);
   t.deepEqual(err4.value, 'not array string');
+});
+
+test('Customize　Error message', t => {
+  const s = Struct({
+    name: type.string,
+    age: type.int.gte(18).msg('Must be an adult')
+  });
+
+  const err = s.validate({
+    name: 'axetroy',
+    age: 17 //
+  });
+
+  t.deepEqual(err.path, ['age']);
+  t.deepEqual(err.message, 'Must be an adult');
 });
