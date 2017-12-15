@@ -115,5 +115,6 @@ Type.define('bt()', require('./validator/between'));
 Type.define('in()', require('./validator/in'));
 Type.define('len()', require('./validator/len'));
 Type.define('msg()', require('./validator/msg'));
+Type.define('func()', require('./validator/func'));
 
 module.exports = { Type, type: TypeTree };

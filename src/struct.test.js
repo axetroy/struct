@@ -502,3 +502,31 @@ test('Customize　Validator function in array', t => {
     age: '123' // invalid age
   });
 });
+
+test('Customize　Validator function with .func()', t => {
+  const s = Struct({
+    name: type.string,
+    age: type.int,
+    address: type.func(function(input) {
+      return typeof input === 'string';
+    })
+  });
+
+  const err1 = s.validate({
+    name: 'axetroy',
+    age: 18,
+    address: 'DC'
+  });
+
+  t.deepEqual(err1, void 0);
+
+  const err2 = s.validate({
+    name: 'axetroy',
+    age: 18,
+    address: 123 // invalid address
+  });
+
+  t.deepEqual(err2.path, ['address']);
+  t.deepEqual(err2.validator, 'func()');
+  t.deepEqual(err2.value, 123);
+});
