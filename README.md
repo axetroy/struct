@@ -130,7 +130,7 @@ const struct2 = Struct(type.string);
 #### struct.validate(data)
 
 * `data`: <\*>
-* returns: <Undefined | TypeError>
+* returns: <Undefined | [TypeError](#class-typeerror)>
 
 ```javascript
 const err = Struct.validate({ word: 'Hello world' });
@@ -152,9 +152,10 @@ Type.define('email', function(input) {
   // here to check is it a email string
   return true;
 });
+
 ```
 
-define a customize type
+define a customize type, will add an property on ``type.prototype``
 
 #### type.xxx
 
@@ -186,6 +187,8 @@ Here is the build in type
 * [x] **in(array)**
 * [x] **len(int)**
 * [x] **msg(message)**
+
+All the validator is define on ``type.prototype``.
 
 ### class: TypeError
 
