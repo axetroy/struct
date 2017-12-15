@@ -28,26 +28,29 @@ function Struct(structure, paths = []) {
     case Array.isArray(structure):
       const t = structure[0];
       // if not define the type
-      if (!t || t instanceof Type === false) {
+      if (!t || (!Array.isArray(t) && t instanceof Type === false)) {
         throw new Error(`Array struct should contain an element type.`);
       }
 
-      // rewrite the validate method
-      this.validate = function(data) {
-        let err;
-        // if the value is not a array
-        if (!Array.isArray(data)) {
-          return new TypeError('array', paths, data);
-        }
-        // check every element of array
-        for (let i = 0; i < data.length; i++) {
-          err = t.__exec__(i, data[i], paths);
-          if (err) {
-            break;
+      if (t instanceof Type) {
+        // rewrite the validate method
+        this.validate = function(data) {
+          let err;
+          // if the value is not a array
+          if (!Array.isArray(data)) {
+            return new TypeError('array', paths, data);
           }
-        }
-        return err;
-      };
+          // check every element of array
+          for (let i = 0; i < data.length; i++) {
+            err = t.__exec__(i, data[i], paths);
+            if (err) {
+              break;
+            }
+          }
+          return err;
+        };
+      }
+
       break;
     // {age: type.string}
     case utils.isPlainObject(structure):
@@ -120,31 +123,17 @@ Struct.prototype.validate = function(data) {
             case utils.isPlainObject(t) || Array.isArray(t): // [{name: type.string}]
               // check one by one element
               (function() {
-                const structObject = new Struct(t, paths);
+                const s = new Struct(t, paths);
                 for (let i = 0; i < value.length; i++) {
-                  structObject.paths = structObject.paths.concat(i);
-                  err = structObject.validate(value[i]);
-                  structObject.paths.pop();
+                  s.paths = s.paths.concat(i);
+                  err = s.validate(value[i]);
+                  s.paths.pop();
                   if (err) {
                     break;
                   }
                 }
               })();
               break;
-            // case Array.isArray(t): // [[]]
-            //   (function() {
-            //     console.log('发现嵌套数组', value[0], value.length, t);
-            //     const structArray = new Struct(t, paths);
-            //     for (let i = 0; i < value.length; i++) {
-            //       structArray.paths = structArray.paths.concat(i);
-            //       err = structArray.validate(value[i]);
-            //       structArray.paths.pop();
-            //       if (err) {
-            //         break;
-            //       }
-            //     }
-            //   })();
-            //   break;
             default:
               return new TypeError('array', paths, value);
           }

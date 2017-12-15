@@ -257,21 +257,100 @@ test('define struct with array Literal-2', t => {
   t.deepEqual(err.value, ['axe', 'troy']);
 });
 
-// test('define struct with array Literal-3', t => {
-//   const s = Struct({
-//     name: type.string,
-//     age: type.int,
-//     nickname: [[[type.string]]]
-//   });
-//
-//   const err = s.validate({
-//     name: 'axetroy',
-//     age: 18,
-//     nickname: [[['axe', 'troy']], [[['hello', 'world']]]]
-//   });
-//
-//   t.deepEqual(err, void 0);
-// });
+test('define struct with array Literal-3', t => {
+  const s = Struct({
+    name: type.string,
+    age: type.int,
+    nickname: [[[type.string]]]
+  });
+
+  const err = s.validate({
+    name: 'axetroy',
+    age: 18,
+    nickname: [[['axe', 'troy']], [['hello', 'world']]]
+  });
+
+  t.deepEqual(err, void 0);
+});
+
+test('define struct with array Literal-3', t => {
+  const s = Struct({
+    name: type.string,
+    age: type.int,
+    friends: [
+      {
+        name: type.string,
+        age: type.int,
+        message: [
+          {
+            from: type.string,
+            to: type.string,
+            timestamp: type.int,
+            msg: type.string
+          }
+        ],
+        group: [type.string]
+      }
+    ]
+  });
+
+  const err = s.validate({
+    name: 'axetroy',
+    age: 18,
+    friends: [
+      {
+        name: 'cannry',
+        age: 19,
+        message: [
+          {
+            from: 'cannry',
+            to: 'axetroy',
+            timestamp: 1513135028,
+            msg: 'How are you?'
+          },
+          {
+            from: 'cannry',
+            to: 'another',
+            timestamp: 1513135028,
+            msg: 'Is it ok?'
+          }
+        ],
+        group: ['developer', 'teacher', 'maker']
+      }
+    ]
+  });
+
+  t.deepEqual(err, void 0);
+
+  const err2 = s.validate({
+    name: 'axetroy',
+    age: 18,
+    friends: [
+      {
+        name: 'cannry',
+        age: 19,
+        message: [
+          {
+            from: 'cannry',
+            to: 'axetroy',
+            timestamp: 1513135028,
+            msg: 'How are you?'
+          },
+          {
+            from: 'cannry',
+            to: 'another',
+            timestamp: 1513135028,
+            msg: 123 // message should string
+          }
+        ],
+        group: ['developer', 'teacher', 'maker']
+      }
+    ]
+  });
+
+  t.deepEqual(err2.keys, ['friends', 0, 'message', 1, 'msg']);
+  t.deepEqual(err2.value, 123);
+});
 
 test('define struct with object Literal', t => {
   const s = Struct({
