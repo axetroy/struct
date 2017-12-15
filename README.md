@@ -206,6 +206,7 @@ The TypeError inherit from Error
 * [Custom Validator](https://github.com/axetroy/struct/blob/master/examples/constom-validator.js)
 * [Custom Validator With Argument](https://github.com/axetroy/struct/blob/master/examples/custom-functional-validator.js)
 * [Composing Validator](https://github.com/axetroy/struct/blob/master/examples/custom-validator.js)
+* [Composing Validator Function](https://github.com/axetroy/struct/blob/master/examples/custom-validator-function.js)
 * [Custom Error Message](https://github.com/axetroy/struct/blob/master/examples/custom-error-message.js)
 * [Deep Nest Object](https://github.com/axetroy/struct/blob/master/examples/validate-deep-nest-object.js)
 * [Deep Nest Array](https://github.com/axetroy/struct/blob/master/examples/validate-deep-nest-array.js)
