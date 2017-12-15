@@ -144,7 +144,7 @@ Create a struct
 
 Check the data is valid or not
 
-##### What will **new Struct.validate(value)** return?
+#### What will **new Struct.validate(value)** return?
 
 * **undefined**, If you got this return value, that mean the data pass the all validator
 * **TypeError**, if anyone validator fail, it will return this error, inherit from Error
@@ -202,7 +202,15 @@ const err = struct.validate(data);
 console.log(err); // undefined, because the data pass the validator
 ```
 
-### examples
+### Examples
+
+* [Basic Validation](https://github.com/axetroy/struct/blob/master/examples/basic.js)
+* [Custom Validator](https://github.com/axetroy/struct/blob/master/examples/constom-validator.js)
+* [Custom Validator With argument](https://github.com/axetroy/struct/blob/master/examples/constom-functional-validator.js)
+* [Composing Validator](https://github.com/axetroy/struct/blob/master/examples/composing-validator.js)
+* [Custom Error Message](https://github.com/axetroy/struct/blob/master/examples/constom-error-message.js)
+* [Deep Nest Object](https://github.com/axetroy/struct/blob/master/examples/validate-deep-nest-object.js)
+* [Deep Nest Array](https://github.com/axetroy/struct/blob/master/examples/validate-deep-nest-array.js)
 
 There is the [examples](https://github.com/axetroy/struct/tree/master/examples), may be it can help you
 

@@ -1,15 +1,15 @@
 const { Struct, type } = require('../index');
 
 const data = {
-  name: 'axetroy',
-  age: 20
+  name: 'Axetroy',
+  age: 18
 };
 
 const struct = Struct({
   name: type.string,
-  age: type.int.gte(18).lte(50) // 18 <= age <= 50
+  age: type.int.get(18).lte(60) // define the age>=18 && age<=60
 });
 
 const err = struct.validate(data);
 
-console.log(err); // undefined, because the data pass the validator
+console.log(err);

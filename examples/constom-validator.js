@@ -15,7 +15,7 @@ const data = {
 const struct = Struct({
   name: type.string,
   age: type.int,
-  email: type.string.email // check string first, and then check email
+  email: type.email // use email here
 });
 
 const err = struct.validate(data);
