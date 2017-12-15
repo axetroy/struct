@@ -206,7 +206,7 @@ console.log(err); // undefined, because the data pass the validator
 
 * [Basic Validation](https://github.com/axetroy/struct/blob/master/examples/basic.js)
 * [Custom Validator](https://github.com/axetroy/struct/blob/master/examples/constom-validator.js)
-* [Custom Validator With argument](https://github.com/axetroy/struct/blob/master/examples/constom-functional-validator.js)
+* [Custom Validator With Argument](https://github.com/axetroy/struct/blob/master/examples/constom-functional-validator.js)
 * [Composing Validator](https://github.com/axetroy/struct/blob/master/examples/composing-validator.js)
 * [Custom Error Message](https://github.com/axetroy/struct/blob/master/examples/constom-error-message.js)
 * [Deep Nest Object](https://github.com/axetroy/struct/blob/master/examples/validate-deep-nest-object.js)
