@@ -50,7 +50,7 @@ const struct = Struct({
 
 const err = struct.validate(data);
 
-console.log(err); // if all validator success, the error should be null
+console.log(err); // if all validator success, the error should be undefined
 
 /**
 { Error
