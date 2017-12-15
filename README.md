@@ -137,6 +137,7 @@ Create a struct
 * [x] **bt(minNumber, maxNumber)**
 * [x] **in(array)**
 * [x] **len(int)**
+* [x] **msg(message)**
 
 #### Struct.validate(data)
 
@@ -145,13 +146,34 @@ Check the data is valid or not
 ##### What will **new Struct.validate(value)** return?
 
 * **undefined**, If you got this return value, that mean the data pass the all validator
-* **TypeError**, once anyone validator fail, it will return this error object, inherit from Error
-  * validator string: What validator fail
-  * keys []string: What key not pass the validator
-  * value any: The value which not pass the validator
-  * message string: The error message
+* **TypeError**, if anyone validator fail, it will return this error, inherit from Error
+  * **validator**: What validator fail
+  * **path**: What key not pass the validator
+  * **value**: The value which not pass the validator
+  * **message**: The error message
+  * **detail**: The error message
 
-### How to write a custom validator
+### How to define customized error message?
+
+```javascript
+const Struct = require('@axetroy/struct');
+
+const data = {
+  name: 'axetroy',
+  age: 17 // 17 < 18, it will throw an error
+};
+
+const struct = Struct({
+  name: type.string,
+  age: type.int.gte(18).msg('Must be an adult')
+});
+
+const err = struct.validate(data);
+
+console.error(err.message); // 'Must be an adult'
+```
+
+### How to write a custom validator?
 
 ```javascript
 const Struct = require('../index');
