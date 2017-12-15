@@ -111,6 +111,8 @@ const err = struct.validate(data);
 console.log(err); // undefined, because the data pass the validator
 ```
 
+## Document
+
 ### class: Struct
 
 Create a struct
@@ -122,7 +124,8 @@ const struct1 = new Struct(type.string);
 const struct2 = Struct(type.string);
 ```
 
-#### static [Struct.define](#static: Type.define)
+#### static [Struct.define](#static-typedefinevalidatorname-handler)
+#### static [Struct.Type](#class-type)
 
 #### struct.validate(data)
 
@@ -133,7 +136,7 @@ const struct2 = Struct(type.string);
 const err = Struct.validate({ word: 'Hello world' });
 ```
 
-validate the data is match with struct, if all match. return `undefined`, if not, return an `TypeError`
+validate the data is match with struct, if all match. return `undefined`, if not, return an [`TypeError`](#class-typeerror)
 
 ### class: Type
 
