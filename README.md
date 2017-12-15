@@ -54,7 +54,7 @@ console.log(err); // if all validator success, the error should be null
 
 /**
 { Error
-    at Object.<anonymous> (/home/axetroy/gpm/github.com/axetroy/struct/src/error.js:18:23)
+    at Object.<anonymous> (/home/axetroy/gpm/github.com/axetroy/struct/src/error.js:19:23)
     at Module._compile (module.js:635:30)
     at Object.Module._extensions..js (module.js:646:10)
     at Module.load (module.js:554:32)
@@ -65,9 +65,10 @@ console.log(err); // if all validator success, the error should be null
     at Object.<anonymous> (/home/axetroy/gpm/github.com/axetroy/struct/src/type.js:2:19)
     at Module._compile (module.js:635:30)
   validator: 'int',
-  keys: [ 'address', 'code' ],
+  path: [ 'address', 'code' ],
   value: '12',
-  message: 'Can not pass the validator "int" by "12" in path "address.code"' }
+  detail: 'Can not pass the validator "int" with value "12" in path "address.code"',
+  message: 'Can not pass the validator "int" with value "12" in path "address.code"' }
  */
 ```
 
