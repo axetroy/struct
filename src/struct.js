@@ -58,9 +58,10 @@ function Struct(structure, paths = []) {
         if (structure.hasOwnProperty(attr)) {
           const type = structure[attr];
           if (
-            type instanceof Type === false &&
-            !utils.isPlainObject(type) &&
-            !Array.isArray(type)
+            type instanceof Type === false && // support Type
+            !utils.isPlainObject(type) && // support object
+            !Array.isArray(type) && // support array
+            typeof type !== 'function' // support function
           ) {
             throw new Error('Invalid type of key "' + attr + '"');
           }
@@ -134,6 +135,21 @@ Struct.prototype.validate = function(data) {
                 }
               })();
               break;
+            case typeof t === 'function':
+              (function() {
+                for (let i = 0; i < value.length; i++) {
+                  const taskName = 'customFunction()';
+                  t.__name__ = taskName;
+                  const newType = new Type();
+                  newType.task.push(t);
+                  newType.raw.push(taskName);
+                  err = newType.__exec__(field, value[i], this.paths);
+                  if (err) {
+                    break;
+                  }
+                }
+              }.call(this));
+              break;
             default:
               return new TypeError('array', paths, value);
           }
@@ -144,6 +160,14 @@ Struct.prototype.validate = function(data) {
           // if type is an object
           const s = new Struct(type, paths);
           err = s.validate(value);
+          break;
+        case typeof type === 'function':
+          const taskName = 'customFunction()';
+          type.__name__ = taskName;
+          const newType = new Type();
+          newType.task.push(type);
+          newType.raw.push(taskName);
+          err = newType.__exec__(field, value, this.paths);
           break;
       }
       checkedMap[field] = true;

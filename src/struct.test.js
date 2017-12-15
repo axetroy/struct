@@ -419,3 +419,86 @@ test('Customize　Error message', t => {
   t.deepEqual(err.path, ['age']);
   t.deepEqual(err.message, 'Must be an adult');
 });
+
+test('Customize　Validator function', t => {
+  const s = Struct({
+    name: type.string,
+    age: type.int,
+    address: function(input) {
+      return typeof input === 'string';
+    }
+  });
+
+  const err1 = s.validate({
+    name: 'axetroy',
+    age: 18,
+    address: 'DC'
+  });
+
+  t.deepEqual(err1, void 0);
+
+  const err2 = s.validate({
+    name: 'axetroy',
+    age: 18,
+    address: 123 // invalid address
+  });
+
+  t.deepEqual(err2.path, ['address']);
+  t.deepEqual(err2.validator, 'customFunction()');
+  t.deepEqual(err2.value, 123);
+});
+
+test('Customize　Validator function in array', t => {
+  const s = Struct({
+    name: type.string,
+    age: type.int,
+    friends: [
+      function(input) {
+        if (typeof input.name !== 'string') {
+          return false;
+        }
+        if (typeof input.age !== 'number') {
+          return false;
+        }
+      }
+    ]
+  });
+
+  const err1 = s.validate({
+    name: 'axetroy',
+    age: 18,
+    friends: [
+      {
+        name: 'Andy',
+        age: 19
+      },
+      {
+        name: 'Cosmo',
+        age: 20
+      }
+    ]
+  });
+
+  t.deepEqual(err1, void 0);
+
+  const err2 = s.validate({
+    name: 'axetroy',
+    age: 18,
+    friends: [
+      {
+        name: 'Andy',
+        age: 19
+      },
+      {
+        name: 'Cosmo',
+        age: '123' // invalid age
+      }
+    ]
+  });
+  t.deepEqual(err2.path, ['friends']);
+  t.deepEqual(err2.validator, 'customFunction()');
+  t.deepEqual(err2.value, {
+    name: 'Cosmo',
+    age: '123' // invalid age
+  });
+});
