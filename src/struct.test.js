@@ -530,3 +530,82 @@ test('Customize　Validator function with .func()', t => {
   t.deepEqual(err2.validator, 'func()');
   t.deepEqual(err2.value, 123);
 });
+
+test('Nest Struct', t => {
+  const User = Struct({
+    name: type.string,
+    age: type.int
+  });
+
+  const Article = Struct({
+    title: type.string,
+    content: type.string,
+    author: User
+  });
+
+  const data1 = {
+    title: 'article title',
+    content: 'article content',
+    author: {
+      name: 'Axetroy',
+      age: 18
+    }
+  };
+
+  const err1 = Article.validate(data1);
+
+  t.deepEqual(err1, void 0);
+
+  const data2 = {
+    title: 'article title',
+    content: 'article content',
+    author: {
+      name: 'Axetroy',
+      age: '18'
+    }
+  };
+
+  const err2 = Article.validate(data2);
+
+  t.deepEqual(err2.validator, 'int');
+  t.deepEqual(err2.path, ['author', 'age']);
+  t.deepEqual(err2.value, '18');
+});
+
+test('Nest Struct in Array', t => {
+  const User = Struct({
+    name: type.string,
+    age: type.int
+  });
+
+  const Project = Struct({
+    name: type.string,
+    contributors: [User]
+  });
+
+  const err1 = Project.validate({
+    name: 'Struct',
+    contributors: [
+      {
+        name: 'Axetroy',
+        age: 18
+      }
+    ]
+  });
+
+  t.deepEqual(err1, void 0);
+
+  const err2 = Project.validate({
+    name: 'Struct',
+    contributors: [
+      {
+        name: 'Axetroy',
+        age: '18'
+      }
+    ]
+  });
+
+  t.deepEqual(err2.validator, 'int');
+  t.deepEqual(err2.value, '18');
+  t.deepEqual(err2.path, ['contributors', 0, 'age']);
+});

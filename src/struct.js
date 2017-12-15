@@ -98,6 +98,12 @@ Struct.prototype.validate = function(data) {
       }
 
       switch (!err) {
+        case type instanceof Struct:
+          err = type.validate(value);
+          if (err) {
+            err.path = paths.concat(err.path);
+          }
+          break;
         // if type is instanceof of Type
         case type instanceof Type:
           err = type.__exec__(field, value, this.paths);
@@ -112,6 +118,15 @@ Struct.prototype.validate = function(data) {
           const t = type[0];
 
           switch (true) {
+            case t instanceof Struct:
+              for (let i = 0; i < value.length; i++) {
+                err = t.validate(value[i]);
+                if (err) {
+                  err.path = paths.concat(i, err.path);
+                  break;
+                }
+              }
+              break;
             case t instanceof Type: //[type.string]
               // check every element of array
               for (let i = 0; i < value.length; i++) {
@@ -157,7 +172,6 @@ Struct.prototype.validate = function(data) {
           break;
         // if type is an object
         case utils.isPlainObject(type):
-          // if type is an object
           const s = new Struct(type, paths);
           err = s.validate(value);
           break;
