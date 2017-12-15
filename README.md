@@ -16,6 +16,7 @@ A Modern, Scalable , Graceful, Easy Use data structure validator, Support browse
 * [x] Strict mode, no one excess field
 * [x] Most of type validator support.
 * [x] Scalable, easy to define your customize validator.
+* [x] Highly customizable.
 * [x] Validate with params, Support pass the argument to the validator.
 * [x] Pipe line, multiple validator work together.
 * [x] Support endless nest object, including Object and Array.
@@ -187,6 +188,7 @@ Here is the build in type
 * [x] **in(array)**
 * [x] **len(int)**
 * [x] **msg(message)**
+* [x] **func(validatorFunc)**
 
 All the validator is define on ``type.prototype``.
 
@@ -206,6 +208,7 @@ The TypeError inherit from Error
 * [Custom Validator](https://github.com/axetroy/struct/blob/master/examples/constom-validator.js)
 * [Custom Validator With Argument](https://github.com/axetroy/struct/blob/master/examples/custom-functional-validator.js)
 * [Custom Validator Function](https://github.com/axetroy/struct/blob/master/examples/custom-validator-function.js)
+* [Custom Validator Function With Type](https://github.com/axetroy/struct/blob/master/examples/custom-validator-function-type.js)
 * [Composing Validator](https://github.com/axetroy/struct/blob/master/examples/custom-validator.js)
 * [Custom Error Message](https://github.com/axetroy/struct/blob/master/examples/custom-error-message.js)
 * [Deep Nest Object](https://github.com/axetroy/struct/blob/master/examples/validate-deep-nest-object.js)
