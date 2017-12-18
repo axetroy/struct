@@ -41,7 +41,7 @@ const data = {
   }
 };
 
-const struct = Struct({
+const User = Struct({
   name: type.string,
   age: type.int,
   address: {
@@ -50,7 +50,7 @@ const struct = Struct({
   }
 });
 
-const err = struct.validate(data);
+const err = User.validate(data);
 
 console.log(err); // if all validator success, the error should be undefined
 
@@ -92,7 +92,7 @@ const data = {
   ]
 };
 
-const struct = new Struct({
+const User = new Struct({
   name: type.string,
   age: type.int.gte(18), // age is int && and age >= 18
   address: {
@@ -108,7 +108,7 @@ const struct = new Struct({
   ]
 });
 
-const err = struct.validate(data);
+const err = User.validate(data);
 
 console.log(err); // undefined, because the data pass the validator
 ```
