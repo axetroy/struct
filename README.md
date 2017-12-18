@@ -167,27 +167,27 @@ const intType = type.int;
 const composingType = type.int.gte(100);
 ```
 
-| Validator               | Description                               | Require Argument | Source Code                                                                     |
-| ----------------------- | ----------------------------------------- | ---------------- | ------------------------------------------------------------------------------- |
-| **number**              | Check the type is a number                | false            | [number](https://github.com/axetroy/struct/blob/master/src/validator/number.js) |
-| **int**                 | Check the type is a int                   | false            | [int](https://github.com/axetroy/struct/blob/master/src/validator/int.js)       |
-| **float**               | Check the type is a float                 | false            | [float](https://github.com/axetroy/struct/blob/master/src/validator/float.js)   |
-| **string**              | Check the type is a string                | false            | [string](https://github.com/axetroy/struct/blob/master/src/validator/string.js) |
-| **bool**                | Check the type is a bool                  | false            | [bool](https://github.com/axetroy/struct/blob/master/src/validator/bool.js)     |
-| **any**                 | Any type                                  | false            | [any](https://github.com/axetroy/struct/blob/master/src/validator/any.js)       |
-| **odd**                 | Check the type is a number and odd        | false            | [odd](https://github.com/axetroy/struct/blob/master/src/validator/odd.js)       |
-| **even**                | Check the type is a number and even       | false            | [even](https://github.com/axetroy/struct/blob/master/src/validator/even.js)     |
-| **json**                | Check the type is json string             | false            | [json](https://github.com/axetroy/struct/blob/master/src/validator/json.js)     |
-| **eq(value)**           | Equal to some value                       | true             | [eq](https://github.com/axetroy/struct/blob/master/src/validator/eq.js)         |
-| **gt(number)**          | Greater then a number                     | true             | [gt](https://github.com/axetroy/struct/blob/master/src/validator/gt.js)         |
-| **gte(number)**         | Greater then or equal a number            | true             | [gte](https://github.com/axetroy/struct/blob/master/src/validator/gte.js)       |
-| **lt(number)**          | Less then a number                        | true             | [lt](https://github.com/axetroy/struct/blob/master/src/validator/lt.js)         |
-| **lte(number)**         | Less then or equal a number               | true             | [lte](https://github.com/axetroy/struct/blob/master/src/validator/lte.js)       |
-| **bt(min, max)**        | Between the min and max                   | true             | [bt](https://github.com/axetroy/struct/blob/master/src/validator/bt.js)         |
-| **in(array)**           | The value is in the array                 | true             | [in](https://github.com/axetroy/struct/blob/master/src/validator/in.js)         |
-| **len(int)**            | The values's length property equal to xxx | true             | [len](https://github.com/axetroy/struct/blob/master/src/validator/len.js)       |
-| **msg(message)**        | Custom error message of this field        | true             | [msg](https://github.com/axetroy/struct/blob/master/src/validator/msg.js)       |
-| **func(validatorFunc)** | Custom Validator                          | true             | [func](https://github.com/axetroy/struct/blob/master/src/validator/func.js)     |
+| Validator               | Description                               | Require Argument | Source Code                                                                                   |
+| ----------------------- | ----------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------- |
+| **number**              | Check the type is a number                | false            | [src/validator/number](https://github.com/axetroy/struct/blob/master/src/validator/number.js) |
+| **int**                 | Check the type is a int                   | false            | [src/validator/int](https://github.com/axetroy/struct/blob/master/src/validator/int.js)       |
+| **float**               | Check the type is a float                 | false            | [src/validator/float](https://github.com/axetroy/struct/blob/master/src/validator/float.js)   |
+| **string**              | Check the type is a string                | false            | [src/validator/string](https://github.com/axetroy/struct/blob/master/src/validator/string.js) |
+| **bool**                | Check the type is a bool                  | false            | [src/validator/bool](https://github.com/axetroy/struct/blob/master/src/validator/bool.js)     |
+| **any**                 | Any type                                  | false            | [src/validator/any](https://github.com/axetroy/struct/blob/master/src/validator/any.js)       |
+| **odd**                 | Check the type is a number and odd        | false            | [src/validator/odd](https://github.com/axetroy/struct/blob/master/src/validator/odd.js)       |
+| **even**                | Check the type is a number and even       | false            | [src/validator/even](https://github.com/axetroy/struct/blob/master/src/validator/even.js)     |
+| **json**                | Check the type is json string             | false            | [src/validator/json](https://github.com/axetroy/struct/blob/master/src/validator/json.js)     |
+| **eq(value)**           | Equal to some value                       | true             | [src/validator/eq](https://github.com/axetroy/struct/blob/master/src/validator/eq.js)         |
+| **gt(number)**          | Greater then a number                     | true             | [src/validator/gt](https://github.com/axetroy/struct/blob/master/src/validator/gt.js)         |
+| **gte(number)**         | Greater then or equal a number            | true             | [src/validator/gte](https://github.com/axetroy/struct/blob/master/src/validator/gte.js)       |
+| **lt(number)**          | Less then a number                        | true             | [src/validator/lt](https://github.com/axetroy/struct/blob/master/src/validator/lt.js)         |
+| **lte(number)**         | Less then or equal a number               | true             | [src/validator/lte](https://github.com/axetroy/struct/blob/master/src/validator/lte.js)       |
+| **bt(min, max)**        | Between the min and max                   | true             | [src/validator/bt](https://github.com/axetroy/struct/blob/master/src/validator/bt.js)         |
+| **in(array)**           | The value is in the array                 | true             | [src/validator/in](https://github.com/axetroy/struct/blob/master/src/validator/in.js)         |
+| **len(int)**            | The values's length property equal to xxx | true             | [src/validator/len](https://github.com/axetroy/struct/blob/master/src/validator/len.js)       |
+| **msg(message)**        | Custom error message of this field        | true             | [src/validator/msg](https://github.com/axetroy/struct/blob/master/src/validator/msg.js)       |
+| **func(validatorFunc)** | Custom Validator                          | true             | [src/validator/func](https://github.com/axetroy/struct/blob/master/src/validator/func.js)     |
 
 All the validator is define on `type.prototype`.
 
