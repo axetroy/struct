@@ -37,7 +37,7 @@ const data = {
   age: 18,
   address: {
     city: 'DC',
-    code: '12' // invalid city code
+    code: '12' // invalid city code, it should be an integer
   }
 };
 
