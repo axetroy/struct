@@ -30,7 +30,7 @@ npm install @axetroy/struct --save
 ```
 
 ```javascript
-const { Struct, type } = require('../index');
+const { Struct, type } = require('@axetroy/struct');
 
 const data = {
   name: 'axetroy',
