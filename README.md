@@ -69,8 +69,8 @@ console.log(err); // if all validator success, the error should be undefined
   validator: 'int',
   path: [ 'address', 'code' ],
   value: '12',
-  detail: 'Can not pass the validator "int" with value "12" in path "address.code"',
-  message: 'Can not pass the validator "int" with value "12" in path "address.code"' }
+  detail: 'Expected a value of type `int` for `address.code` but received `12`.',
+  message: 'Expected a value of type `int` for `address.code` but received `12`.' }
  */
 ```
 

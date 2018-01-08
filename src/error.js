@@ -5,14 +5,9 @@ function TypeError(validateName, keys = [], value) {
   this.validator = validateName;
   this.path = keys.filter(v => v !== void 0);
   this.value = value;
-  this.detail =
-    'Can not pass the validator "' +
-    validateName +
-    '" with value "' +
-    value +
-    '" in path "' +
-    this.path.join('.') +
-    '"';
+  this.detail = `Expected a value of type \`${validateName}\` for \'${this.path.join(
+    '.'
+  )}\' but received \'${value}\'.`;
   this.message = this.detail;
 }
 
