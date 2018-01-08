@@ -7,11 +7,13 @@ type Data$ = {
   [k: string]: any;
 };
 
-class Type {
+export class Type {
   constructor();
 }
 
-declare class Struct {
+export const type: any;
+
+export declare class Struct {
   constructor(typer: Typer$);
   validate(data: Data$): Error | null;
   define(
